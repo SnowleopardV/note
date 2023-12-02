@@ -1,0 +1,16 @@
+td {
+  width: 100px;
+  height: 60px;
+}
+
+tr:nth-child(odd) {
+  background-color: aqua;
+}
+
+tr:nth-child(even) {
+  background-color: antiquewhite;
+}
+
+img {
+  width: 500px;
+}
