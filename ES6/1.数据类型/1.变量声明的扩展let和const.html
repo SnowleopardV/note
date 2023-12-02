@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//使用var定义变量的for循环
+// var arr = [];
+// var arr1 = [];
+// for (var d = 300; d < 500; d+=100) {
+//     arr[d] = function () {
+//         setTimeout(function () {
+//             console.log(d);
+//         }, 1000)
+//     }
+// }
+// //等价于
+// {
+//     var d = 300;
+//     if (d < 500) {
+//         arr[d] = function () {
+//             setTimeout(function () {
+//                 console.log(d);
+//             }, 1000)
+//         }
+//     }
+// }
+// {
+//     var d = d + 100;
+//     if (d < 500) {
+//         arr[d] = function () {
+//             setTimeout(function () {
+//                 console.log(d);
+//             }, 1000)
+//         }
+//     }
+// }
+// {
+//     var d = d + 100;
+//     if (d < 500) {
+//         arr[d] = function () {
+//             setTimeout(function () {
+//                 console.log(d);
+//             }, 1000)
+//         }
+//     }
+// }
+// console.log(d)
+// //使用let定义变量的for循环
+// for (let f = 300; f < 500; f+=100) {
+//     arr1[f] = function () {
+//         setTimeout(function () {
+//             console.log(f);
+//         }, 1000)
+//     }
+// }
+// //等价于
+// {
+//     let f = 300;
+//     if(f < 500) {
+//         arr1[f] = function () {
+//             setTimeout(function () {
+//                 console.log(f);
+//             }, 1000)
+//         }
+//     }
+// }
+// {
+//     let  = 300 + 100;
+//     if(f < 500) {
+//         arr1[f] = function () {
+//             setTimeout(function () {
+//                 console.log(f);
+//             }, 1000)
+//         }
+//     }
+// }
+// {
+//     let  = 400 + 100;
+//     if(f < 500) {
+//         arr1[f] = function () {
+//             setTimeout(function () {
+//                 console.log(f);
+//             }, 1000)
+//         }
+//     }
+// }
+// console.log(f)
+
+
+
+// for (let j = 0; j < 3; j++) {
+//     let j = 'abc';
+//     console.log(j)
+// }
+// //等价于
+// {
+//     let j = 0;
+//     {
+//         if(j < 3) {
+//             let j = 'abc';
+//             console.log(j);
+//         }
+//     }
+// }
+// {
+//     let j = 1 + 1;
+//     {
+//         if(j < 3) {
+//             let j = 'abc';
+//             console.log(j);
+//         }
+//     }
+// }
+// {
+//     let j = 2 + 1;
+//     {
+//         if(j < 3) {
+//             let j = 'abc';
+//             console.log(j);
+//         }
+//     }
+// }
+let arr = [];
+for(var i =0; i< 3;  i++) {
+    console.log(i);
+    arr[i] = function () {
+        console.log(i);
+    }
+}
+arr[1]();
+</script>
+</body>
+</html>

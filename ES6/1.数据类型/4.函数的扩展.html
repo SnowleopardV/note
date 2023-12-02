@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	</style>
+</head>
+
+<body>
+<script>
+	var d = 50;
+	function Foo() {
+		getName = function (){
+			console.log(1)
+		};
+		console.log(this);
+		this.d = 100;
+		this.e = 200;
+		return this
+	}
+	Foo.getName = function () {
+		console.log(2)
+	}
+	Foo.prototype.getName = function () {
+		console.log(3)
+	}
+	
+	var getName = function () {
+		console.log(4);
+	}
+
+	function getName () {
+		console.log(5)
+	}
+	var a = 6;
+	var a = 7;
+	console.log('1. var声明的变量覆盖')
+	console.log(a);
+
+	console.log('2. 变量的提升')
+	console.log(b);
+	var b = 8;
+	console.log(b);
+
+	console.log('3. function声明的函数覆盖')
+	function c () {
+		console.log(10)
+	}
+	
+	function c () {
+		console.log(11)
+	}
+	c();
+
+	console.log('4. function 和 var同时声明变量时,function会提升到最前面,然后再执行var')
+	function a() {
+		console.log(12)
+	}
+	console.log(a);
+
+	console.log('5. this和prototype的优先级')
+	Foo.getName();
+	
+	console.log('6. var 和 function同时声明的函数')
+	getName();
+
+	console.log('7.函数内部使用var定义的变量时内部变量,不会影响外部变量');
+	getName1 = function (){
+		console.log(13)
+	};
+	function Foo1() {
+		var getName1 = function (){
+			console.log(14)
+		};
+		console.log(this);
+		this.d = 100;
+		this.e = 200;
+		return this
+	}
+	getName1();
+	Foo1();
+	getName1();
+
+	console.log('7.函数内部直接使用变量是内部变量,影响外部变量');
+	getName();
+	Foo();
+	getName();
+
+	console.log('8.构造函数使用new和不使用new,this的指向')
+	Foo();
+	new Foo();
+	console.log(d,e);
+	</script>
+	
+</body>
+</html>

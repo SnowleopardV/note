@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//ES6引入了Reflect对象
+//1.将Oject对象上原本属于语言内部的方法,比如Object.defineProperty,部署在Reflect对象上
+//2.修改某些Object方法的返回值,比如Object.definePropertyDescriptor(),无法定义时,会报错.Reflect.definePropertyDescriptor方法则返回的是false
+//3.将Object的操作都变成函数行为,像 key in object,delete obj.key都是命令式的,改用Reflect.has(),Reflect.deletePropery()
+//4.Reflect对象的方法和Proxy对象上的方法一一对应,只要是Proxy对象上的方法,都能在Reflect对象上找到.
+let proto = {proto_name : 'lilei', proto_age : 20};
+let obj = {
+    this_sex : 'male',
+    this_country : 'China',
+    get get_Num () {
+        return this.number + this.number1
+    },
+    set set_value (value) {
+        this.value = value;
+    }
+};
+Object.setPrototypeOf(obj,proto);
+Object.defineProperty(obj,'this_country', {enumerable : false});
+let obj1 = {number : 100, number1 : 200, value : 0}
+console.log(obj)
+
+//1.Reflect的方法,总共13个静态方法
+
+//1.1. Reflect.get(target, key, receiver)
+console.log(Reflect.get(obj, 'this_sex'),Reflect.get(obj, 'proto_age'))
+console.log(Reflect.get(obj,'get_Num',obj1))
+console.log(Reflect.get(obj,'school'))
+//console.log(Reflect.get(1,'get_Num',obj1)) 如果第一个参数不是对象会报错
+
+
+//1.2. Relect.set(target, key ,value, reciver)
+Reflect.set(obj,'this_sex','female');
+console.log(Reflect.get(obj, 'this_sex'));
+Reflect.set(obj, 'set_value', 500, obj1)
+console.log(Reflect.get(obj1, 'value'))
+
+
+//1.3. Reflect.has(target, key)
+console.log(Reflect.has(obj,'this_sex'));
+console.log(Reflect.has(obj,'this_sex'));
+console.log(Reflect.has(obj,'proto_age'));
+
+
+//1.4. Reflect.deleteProperty(target,key)
+console.log(Reflect.deleteProperty(obj, 'this_sex'));
+console.log(Reflect.deleteProperty(obj, 'xxx'));
+
+
+
+//1.5. Reflect.getPrototypeof(target), Reflect.setPrototypeOf(target, proto);
+console.log(Reflect.getPrototypeOf(obj));
+
+
+
+
+
+
+
+
+
+
+
+
+//1.6. Reflect.getOwnPropertyDescriptor(target, key); Reflect.defineProperty(target, key, proto)
+console.log(Reflect.getOwnPropertyDescriptor(obj, 'this_country'),Reflect.getOwnPropertyDescriptor(obj, 'proto_age'));
+Reflect.defineProperty(obj,'this_sex',{value : 'male', configurable: true,enumerable : false,writable : true})
+
+
+
+
+
+
+
+
+
+
+//1.7. Reflect.isExtensible(target),Reflesct.preventExtensions(target)
+console.log(Reflect.isExtensible(obj));
+Reflect.preventExtensions(obj);
+console.log(Reflect.isExtensible(obj))
+
+
+
+
+
+
+
+
+
+
+
+//1.8. Reflect.construct(...args)
+function Person(name,age) {
+	this.name = name;
+	this.age = age
+}
+
+let person3 = new Person('lili',30);
+let person4 = Reflect.construct(Person,['lili',30])
+console.log(person3,person4)
+
+function Student(){
+	this.sex = 'male'
+}
+
+let student3 = new Student();
+let student4 = Reflect.construct(Student,[])
+console.log(student3,student4)
+
+
+
+//1.9. Reflect.apply(target,thisArg,args)
+function add(){
+	console.log(this.x + this.y)
+}
+
+let numObj = {
+	x : 100,
+	y : 200
+}
+
+Reflect.apply(add, numObj,[])
+
+
+//1.10. Reflect.ownKeys(target)
+console.log(Reflect.ownKeys(obj))
+
+
+
+//2. Reflect.revocable()
+let {proxy, revoke} = Proxy.revocable(obj, {
+	get (){
+		console.log('get')
+	}
+})
+
+proxy.name;
+revoke();
+proxy.name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

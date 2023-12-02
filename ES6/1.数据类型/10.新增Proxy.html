@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let proto = {proto_name : 'lilei', proto_age : 20};
+let obj = {
+    this_sex : 'male',
+    this_country : 'China',
+    get get_Num () {
+        return this.number + this.number1
+    },
+    set set_value (value) {
+        return this.value = value;
+    }
+};
+Object.setPrototypeOf(obj,proto);
+Object.defineProperty(obj,'this_country', {enumerable : false});
+let obj1 = {number : 100, number1 : 200, value : 0}
+console.log(obj)
+
+
+
+let proxy = new Proxy(obj,{
+
+
+    //1. Proxy的配置方法,总共有13个拦截方法
+
+    //1.1. get (target, key, receiver)
+    get (target, key, receiver) {
+        console.log('get',target, key, receiver, target[key]);
+        return target[key];
+    },
+
+
+    //1.2. set (target, key, value, receiver)
+    set (target, key, value, receiver) {
+        console.log('set ',value, receiver);
+        target.value = value;
+    },
+
+
+    //1.3. has(target,key)
+    has(target, key){
+    	console.log('has');
+    	return key in target;
+    },
+
+    //1.4. deleteProperty(target, key)
+    deleteProperty(target, key) {
+    	console.log('deleteProperty')
+    },
+    
+
+    //1.5. getOwnpropertyDescriptor(target, key), defineProperty(target, key, descriptor)
+    getOwnPropertyDescriptor(target,key) {
+    	console.log('getOwnPropertyDescriptor');
+    	return Reflect.getOwnPropertyDescriptor(target,key)
+    },
+
+    defineProperty(target, key, descriptor){
+    	console.log('defineProperty');
+    	Reflect.defineProperty(target, key, descriptor);
+    	console.log(Reflect.getOwnPropertyDescriptor(target, key));
+    	return true;
+    },
+
+
+    //1.6. getPrototypeOf(target), setPrototypeOf(target, proto)
+    getPrototypeOf(target){
+    	console.log('getPrototypeOf');
+    	return Reflect.getPrototypeOf(target)
+    },
+
+    setPrototypeOf(target, proto){
+    	console.log('setPrototypeOf');
+    	Reflect.setPrototypeOf(target, proto);
+    	return true
+    },
+
+
+    //1.7. isExtensible(target), preventExtensions(target)
+    isExtensible(target) {
+    	console.log('isExtensible');
+    	return Reflect.isExtensible(target)
+    },
+
+    preventExtensions(target){
+    	console.log('preventExtensions');
+    	Reflect.preventExtensions(target);
+    	return true
+    },
+
+
+
+
+    //1.8. construct(target,args)
+    construct(target, args){
+    	console.log('construct');
+    	Reflect.construct(target, args)
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //1.9. apply(target,thisObj,args)
+    apply(target, thisObj, args){
+    	console.log('apply');
+    	Reflect.apply(target, thisObj, args)
+    },
+
+
+
+
+
+
+
+
+
+
+
+    //1.10. ownKeys(target)
+    ownKeys(target){
+    	return Reflect.ownKeys(target)
+    }
+})
+console.log(Reflect.get(proxy,'this_sex'),proxy.this_sex);
+Reflect.set(proxy, 'set_value', 500, obj1);
+
+console.log(Reflect.get(obj1,'value'))
+Reflect.set(proxy, 'this_sex', 'boy')
+Reflect.has(proxy,'this_sex');
+Reflect.deleteProperty(proxy,'this_sex')
+console.log(Object.getOwnPropertyDescriptor(proxy,'this_country'))
+Object.defineProperty(proxy,'this_country',{value: "China", writable: true, enumerable: true, configurable: true})
+console.log(Object.getPrototypeOf(proxy));
+Object.setPrototypeOf(proxy,obj1);
+console.log(Object.isExtensible(proxy))
+Object.preventExtensions(proxy);
+console.log(Object.isExtensible(proxy))
+console.log(Object.values(proxy))
+
+//2. Proxy的this指向proxy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// let s = String('abc');
+// console.log(s instanceof String) //false
+// console.log(typeof(s)) //string
+// console.log(s); //'abc'
+
+// let s1 = new String('abc'); 
+// console.log(s1 instanceof String) //true
+// console.log(s1 instanceof Object) //true
+// console.log(typeof(s1)) //object
+// console.log(s1); //String{'abc'}
+// console.log(s1.valueOf());  //'abc'
+
+// let s2 = 'abc';
+// let s3 = 'efg';
+// console.log(s2.concat(s3), s2);
+
+// let s4 = 'abcbcdef';
+// console.log(s4.indexOf('bc'));  //1
+// console.log(s4.indexOf('zy'));  //-1
+
+// let s5 = 'abcbcdef';
+// console.log(s5.lastIndexOf('bc'));  //3
+// console.log(s5.lastIndexOf('zy'));  //-1
+
+// let s6 = 'abcbcdededef';
+// console.log(s6.search('de'));   //5
+// console.log(s6.search('xy'));    //-1
+
+// let s7 = 'abcdefgabcdefg';
+// console.log(s7.match('bc'), typeof(s7.match('bc'))); //["bc", index: 1, input: "abcdefgabcdefg", groups: undefined] object
+// console.log(s7.match(/bc/)); ////["bc", index: 1, input: "abcdefgabcdefg", groups: undefined]
+// console.log(s7.match(/bc/g)); //(2) ["bc", "bc"]
+
+// let s8 = '   abc abc ';
+// console.log(s8.trim());  // 'abc abc'
+// console.log(s8);         //'   abc abc '
+// console.log(s8.length);  //11
+
+// let s9 = 'ABCabc';
+// console.log(s9.toLowerCase());  //'abcabc'
+// console.log(s9);                //'ABCabc'
+
+// let s10 = 'ABCabc';
+// console.log(s10.toUpperCase());  //'ABCABC'
+// console.log(s10);                //'ABCabc'
+
+// let s11 = 'abcabcabc';
+// console.log(s11.replace('bc', '11')); //'a11abcabc'
+// console.log(s11);                     //'abcabcabc'
+// console.log(s11.replace(/bc/g, '22')) //'a22a22a22'
+
+// let s12 = 'abcdefghijk';
+// console.log(s12.slice(1,4));     // 'bcd'
+// console.log(s12);                // 'abcdefghijk'
+// console.log(s12.slice(-2, -1));  // 'j'
+
+// let s13 = 'abcdefdeghijk';
+// console.log(s13.split('d'))  //(3) ["abc", "ef", "eghijk"]
+// console.log(s13);            //'abcdefghijk'
+// console.log(s13.split(/e/))  //(3) ["abcd", "fd", "ghijk"]
+
+// let s14 = 'abcdefdeghijk';
+// console.log(s14.substring(2,4))  //cd
+// console.log(s14);                //'abcdefghijk'
+
+// let s15 = 'abcdefdeghijk';
+// console.log(s15.substr(2,4))     //cdef
+// console.log(s15);                //'abcdefghijk'
+
+// let s16 = 'abcdefdeghijk';
+// console.log(s16.charAt(2))       //c
+// console.log(s16);                //'abcdefghijk'
+
+// let s17 = 'abcdefdeghijk';
+// console.log(s17.charCodeAt(2))       //99
+// console.log(s17);                    //'abcdefghijk'
+
+// let n = 12345.6789;
+// console.log(n.toFixed());    //12345
+// console.log(n.toFixed(2));   //12345.68
+// console.log(n.toFixed(6));   //12345.678900
+// console.log(n)               //12345.6789
+
+// let n1 = 1234567;
+// console.log(n1.toString());       //'1234567'
+// console.log(n1.toLocaleString()); //1,234,567
+// console.log(n1);                  //1234567
+
+// let a;
+// let b;
+// console.log(a, b);                 
+// //undefined undefined
+// console.log(typeof(a), typeof(b), typeof(undefined));
+// //undefined undefined undefined
+// console.log(a === b, undefined === undefined);
+// //true true
+
+// let a = null;
+// let b = null;
+// console.log(a, b);
+// //null null
+// console.log(typeof(a), typeof(b));
+// //object object
+// console.log(a === b, null === null);
+// //true true
+
+
+
+// let num = Number(1234);
+// console.log(num);  //1234
+// console.log(typeof(num)); //number
+// console.log(num instanceof Number); //false
+
+// let num1 = new Number(1234);
+// console.log(num1);    //Number{1234}
+// console.log(num1.valueOf());  //1234
+// console.log(typeof(num1));  //object
+// console.log(num1 instanceof Number); //true
+// console.log(num1 instanceof Object); //true
+
+// let b = Boolean(true); 
+// console.log(b); //t
+// console.log(b instanceof Boolean);
+// console.log(typeof(b))
+
+// let b1 = new Boolean(true);
+// console.log(b1); //Bolean{true}
+// console.log(b1.valueOf()); //true
+// console.log(b1 instanceof Boolean); //true
+// console.log(b1 instanceof Object);  //true
+// console.log(typeof(b1))  //object
+
+// let arr = Array(1, 2, 3);
+// console.log(arr);  //(3) [1, 2, 3]
+// console.log(arr instanceof Array);  //true
+// console.log(arr instanceof Object); //true
+// console.log(typeof arr)    //object
+
+// let arr1 = new Array(1, 2, 3);
+// console.log(arr1);   // (3) [1, 2, 3] 
+// console.log(arr1 instanceof Array);  //true
+// console.log(arr1 instanceof Object); //true
+// console.log(typeof arr1)  //object
+
+// let obj = Object();
+// console.log(obj);  // {}
+// console.log(obj instanceof Object);  // true
+// console.log(typeof obj);   //object
+
+// let obj1 = new Object();
+// console.log(obj1); // {}
+// console.log(obj1 instanceof Object); //true
+// console.log(typeof obj1);  //object
+
+
+</script>
+</body>
+</html>

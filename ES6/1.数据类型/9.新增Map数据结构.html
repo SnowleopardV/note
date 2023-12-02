@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div class="set">1</div>
+<div class="set">2</div>
+<div class="set">3</div>
+<script>
+//1.Map接受一个数组,或者具有iterator接口的数据
+let map = new Map([['a',1],['b',2],['c',3],['d',4]])
+//Map(4) {"a" => 1, "b" => 2, "c" => 3, "d" => 4}
+console.log(typeof(map));
+
+let divs = document.querySelectorAll('div.set');
+let mapArr = [];
+divs.forEach(item => {mapArr.push([item,item.toString()])});
+let map1 = new Map(mapArr);
+
+//2.Map.prototype.set(),Map.prototype.has(),Map.prototype.get(),Map.prototype.delete(),Map.prototype.clear(),Map.prototype.size
+let map2 = new Map();
+map2.set('a',1);
+console.log(map2);
+map2.set('b',2).set('c',3);
+console.log(map2);
+
+console.log(map2.get('a'),map2.get('b'));
+
+console.log(map2.has('a'),map2.has('d'));
+
+console.log(map2.delete('a'),map2.delete('f'),map2)
+
+console.log(map2.size)
+map2.clear();
+console.log(map2.size,map2)
+
+
+//3.Map的遍历操作:Map.prototype.keys(),Map.prototype.values(),Map.prototype.entiries(),forEach(),for...of
+let map3 = new Map([[1,'a'],[2,'b'],[3,'c'],[4,'d'],[5,'e']]);
+console.log(map3.keys(),map3.values(),map3.entries(),)
+
+for(let key of map3.keys()){
+	console.log(key)
+}
+
+for(let value of map3.values()){
+	console.log(value)
+}
+
+for(let entry of map3.entries()){
+	console.log(entry)
+}
+
+map3.forEach((value,key) => {
+	console.log(value,key)
+})
+
+console.log(Map.prototype[Symbol.iterator] === Map.prototype.entries);
+
+for(let v of map3){
+	console.log(v)
+}
+
+//4.扩展运算符...,Array.from
+let map3Arr = [...map3]
+console.log(map3Arr)
+
+let map3Arr1 = Array.from(map3,item => item);
+console.log(map3Arr1)
+
+//4.Map数据结构<=>数组,Map数据结构<=>对象,Map数据结构<=>JSON
+//4.1 Map => 数组,使用...,Array.from();
+//4.2 数组 => Map,使用new Map();
+//4.3 Map => 对象,Map.prototype.entries()/Object.fromEntries()
+let map3Entries = map3.entries();
+let map3Obj = Object.fromEntries(map3Entries)
+console.log(map3Obj,typeof(map3Obj),1);
+
+
+//5.WeakMap
+let divSets = document.querySelectorAll('div.set');
+let wm = new WeakMap();
+divs.forEach(item => {
+	wm.set(item,function handle(){
+		console.log('clicked');
+		document.body.removeChild(this)
+	});
+	item.addEventListener('click',wm.get(item),false)
+})
+</script>
+</body>
+</html>

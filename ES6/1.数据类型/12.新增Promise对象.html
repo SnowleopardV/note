@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+let promise = new Promise((resolve,reject) => {
+	setTimeout(
+		//resolve(100)
+		//function () {
+			//console.log('ok');
+			resolve(100)
+		//}
+		,
+		10000
+		//function(){console.log(1)},10000
+	)
+});
+promise.then(function(value){console.log(value)},function(err){console.log(err)})
+
+function getFoo () {
+  return new Promise(function (resolve, reject){
+    setTimeout(function(){resolve('foo')},5000)
+  });
+}
+
+function getFoo1 () {
+  return new Promise(function (resolve, reject){
+    setTimeout(function(){resolve('foo1')},7000)
+  });
+}
+
+const g = function* () {
+  try {
+    const foo = yield getFoo();
+    console.log(foo);
+    const foo1 = yield getFoo1();
+    console.log(foo1);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+function run (generator) {
+  const it = generator();
+
+  function go(result) {
+    if (result.done) return result.value;
+
+    return result.value.then(function (value) {
+      return go(it.next(value));
+    }, function (error) {
+      return go(it.throw(error));
+    });
+  }
+
+  go(it.next());
+}
+
+run(g);
+
+
+function promiseMake (message, time) {
+    return new Promise((resolve, reject) => {
+    	setTimeout(() => {
+    		resolve(message)
+    	}, time)
+    })
+}
+
+function * gen () {
+	let promiseVaule = yield promiseMake('this is the first value', 5000);
+	console.log(promiseVaule);
+	let promiseValue2 = yield promiseMake('this is the second value', 7000);
+	console.log(promiseValue2);
+	let promiseValue3 = yield promiseMake('this is the third value', 9000);
+	console.log(promiseValue3);
+	console.log(promiseVaule, promiseValue2, promiseValue3);
+}
+
+let it = gen();
+it.next().value.then(function (value){
+	it.next(value).value.then(function (value){
+		it.next(value).value.then(function (value){
+			it.next(value);
+			console.log('finished!')
+		})
+	})
+});
+console.log('hahhhahhah');
+console.log('thank you, are you ok');
+
+let it1 = gen();
+it1.next().value.then(function (value){
+	return it1.next(value).value;
+}).then(function (value){
+	return it1.next(value).value;
+}).then(function (value){
+	return it1.next(value).value;
+})
+
+function run (g) {
+	let it = g();
+	function next (){
+		let itNext = it.next()
+		if(itNext.done) return 'done';
+		itNext.value(
+			)
+	}
+	next();
+}
+
+
+</script>
+</body>
+</html>

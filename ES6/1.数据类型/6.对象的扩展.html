@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+// if (false) {
+//     var id = 50;
+//     function TimeId() {
+//         //this.id = 20;
+//         setTimeout(() => {
+//             console.log(this.id) //箭头函数没有自己的this,此时的id指向TimeId
+//         }, 2000)
+//     }
+//     //TimeId();
+//     TimeId.call({ id: 100 })
+
+//     let parent = document.getElementById('parent');
+//     let son = document.getElementById('son');
+//     parent.addEventListener('click', function() {
+//         console.log('parent click')
+//     }, true)
+//     son.addEventListener('click', function() {
+//         console.log('son click')
+//     })
+
+//     let handle = {
+//         id: 'parent',
+//         init() {
+//             document.getElementById(this.id).addEventListener('click', (event) => this.doSomeThing(event.type))
+//         },
+//         doSomeThing(type) {
+//             console.log(type)
+//         }
+//     }
+//     const cat = {
+//         lives: 9,
+//         jumps() {
+//             console.log(this);
+//             this.lives++;
+//             console.log(this.lives)
+//         }
+//     }
+//     let obj = {
+//     	name : 'lilei',
+//     	age : 20,
+//     	[Symbol.iterator](){
+//     		let values = Reflect.ownKeys(obj);
+//     		//console.log(values);
+//     		let index = 0;
+//     		return {
+//     			next : function(){
+//     				return {
+//     					value : values[index++],
+//     					done : (index > values.length?true:false)
+//     				}
+//     			}
+//     		}
+//     	}
+//     }
+//     for(let value of obj){
+//     	console.log(value)
+//     }
+
+//     let arrLike = {
+//     	0 : 'a',
+//     	1 : 'b',
+//     	2 : 'c',
+//     	length : 3,
+//     	[Symbol.iterator](){
+//     		let values = Reflect.ownKeys(arrLike);
+//     		let index = 0;
+//     		return {
+//     			next : function(){
+//     				return (index > values.length?{
+//     					value : undefined,
+//     					done : true
+//     				}:{
+//     					value : values[index++],
+//     					done : false
+//     				})
+//     			}
+//     		}
+//     	}
+//     } 
+     
+//     for(let v of arrLike){
+//     	console.log(v)
+//     }
+
+//     function Person(){
+//     	this.name = 'lilei',
+//     	this.age = 20,
+//     	this.country = 'China'; 
+//     }
+//     Person.prototype.sex = 'male';
+//    	Person.prototype.say = function (){
+//    		console.log(this,name)
+//    	}
+//     let person = new Person();
+//     person.school = 'UESTC';
+//     let countryDescriptor = Object.getOwnPropertyDescriptor(person,'country');
+//     let descriptors = Object.getOwnPropertyDescriptors(person)
+//     console.log(countryDescriptor);
+//     console.log(descriptors);
+//     countryDescriptor.enumerable = false;
+//    	Object.defineProperty(person,'country',countryDescriptor);
+
+//    	let forinkeys = [];
+//    	for(let key in person){
+//    		forinkeys.push(key);
+//    	}
+
+//    	//super关键字
+//    	let proto = {
+//    		foo : 'lilei',
+//    		name : 'jack',
+//    		hello(){
+//    			console.log(this.name)
+//    		}
+//    	};
+
+//    	let obj = {
+//    		name : 'lucy',
+//    		foo : 'aaa',
+//    		age : 20,
+//    		say(){
+//    			//console.log(super)  //这里的super指向原型对象
+//    			console.log(super.foo,Object.getPrototypeOf(this).foo)  //super.foo相当于Object.getPrototypeOf(this).foo
+//    			super.hello();  
+//    			Object.getPrototypeOf(this).hello.bind(this)()          //super.hello相当于Object.getPrototypeOf(this).hello.bind(this)
+//    		}
+//    	}
+// 	Object.setPrototypeOf(obj,proto);
+// }
+
+// let proto = {
+// 	proto_name : 'lilei',
+// 	proto_age : 20
+// }
+
+// let obj = Object.create(proto,{
+// 	add_ceate_this_school : {value : 'UESTC'},
+// 	add_create_this_sex : {value :'male',enumerable : true}
+// })
+// obj.this_parent = 'meimei';
+// console.log(obj);
+// for(let key in obj){
+// 	console.log(key)
+// }
+// Object.keys(obj);
+// Object.getOwnPropertyNames(obj);
+// Reflect.ownKeys(obj);
+
+// let obj = {a : 1, b : 2, c : 3, d : 4, e : 5};
+// let obj_c_propertyDescriptor = Object.getOwnPropertyDescriptor(obj,'c');
+// obj_c_propertyDescriptor.enumerable = false;
+// console.log(Object.getOwnPropertyDescriptor(obj,'c'));
+// Object.defineProperty(obj,'c',obj_c_propertyDescriptor);
+// let {a, b, ...x} = obj;
+
+// //如果等号右边是undefined或null，就会报错，因为它们无法转为对象。
+// let { ...z } = null;      // 运行时错误
+// let { ...z } = undefined; // 运行时错误
+
+// //解构赋值必须是最后一个参数，否则会报错
+// let {...x, y, z } = {x : 1, y : 2, z : 3};
+// let {x, ...y, z } = {x : 1, y : 2, z : 3};
+// let {x, y, ...z } = {x : 1, y : 2, z : 3};
+
+// let obj = {a : {b : 1}};
+// let {...x} = obj;
+
+// let proto = {name : 'lilei', age : 20};
+// let obj = {};
+// Object.setPrototypeOf(obj,proto);
+// obj.sex = 'male';
+// let {name, ...rest} = obj;
+
+//let obj = Object.create({x : 1,y : 2});
+//obj.z = 3;
+//let {x, ...newObj} = obj;
+//扩展运算符后面必须是一个变量名
+//let {x, ...{y,z}} = obj;
+
+// let obj = {name : 'lilei', age : 20};
+// let obj1 = {...obj}
+
+// let arr = ['a','b','c','d','e','f','g','h'];
+// let obj = {...arr};
+
+//let obj = {...{}, name : 'lilei', age :20}
+//let obj = {...'hello'}
+
+//let proto = {proto_sex : 'male'}
+
+//let obj = {name : 'lilei', age : 20};
+//Object.setPrototypeOf(obj,proto);
+//let obj1 = {...obj};
+//let obj2 = Object.assign({},obj)
+
+//拷贝自身的属性/方法和原型上的属性/方法
+//let cloneObj0 = Object.assign({},Object.create(Object.getPrototypeOf(obj)),obj)
+
+//let cloneObj1 = Object.assign(Object.create(Object.getPrototypeOf(obj)),obj)
+
+//let cloneObj2 = {...obj,...Object.create(Object.getPrototypeOf(obj))}
+
+//let cloneObj3 = Object.create(Object.getPrototypeOf(obj),Object.getOwnPropertyDescriptors(obj))
+
+// let x = 2;
+// let y = {...(x >2 ? {y : 2} : {y :3})}
+
+// let obj = {name :'lilei', age : 20};
+// let obj1 = {...obj, age : 30};
+
+
+// let obj = {
+// 	name : 'lilei',
+// 	get age (){
+// 		console.log('run')
+// 	}
+// }
+
+// let obj1 = {...obj}
+
+// let obj = {
+// 	name : 'lilei',
+// 	age : 20,
+// 	[Symbol('test')] : 'test'
+// }
+// let descriptor = Object.getOwnPropertyDescriptor(obj,'age');
+// descriptor.enumerable = false;
+// Object.defineProperty(obj,'age',descriptor)
+
+//1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

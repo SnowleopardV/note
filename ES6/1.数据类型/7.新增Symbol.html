@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+let s = Symbol('ok');
+let s1 = Symbol('ok');
+let s2 = Symbol.for('ok');   //生成的Symbol值将被登记在全局环境中搜索,使用Symbol(‘cat’)执行30次,会产生30个不同的Symbol的值,使用Symbol.for执行(‘cat’)30次,返回同一个Symbol值.
+let s3 = Symbol.for('ok');
+//Symbol.keyfor() 返回已登记的Symbol的key
+let key = Symbol.keyFor(s3);
+let key1 = Symbol.keyFor(s)
+</script>
+</body>
+</html>

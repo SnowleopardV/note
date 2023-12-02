@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div class="set" id="set">1</div>
+<div class="set">2</div>
+<div class="set">3</div>
+<script>
+//1.Set接受一个数组,或者具有iterator的数据结构
+let set = new Set(['a','a','b','c','c','d','e','e']);
+//Set(5) {"a", "b", "c", "d", "e"}
+console.log(typeof(set));
+
+let divs = document.querySelectorAll('div.set');
+let set1 = new Set(divs);
+
+
+
+//2.Set.prototypeadd(),Set.prototype.has(),Set.prototype.delete(),clear(),Set.prototype.size
+let set2 = new Set();
+set2.add('a');
+console.log(set2);
+set2.add('b').add('b').add('e').add('c');
+console.log(set2);
+
+
+
+
+console.log(set2.has('a'),set2.has('d'));
+
+console.log(set2.delete('a'),set2.delete('f'),set2)
+
+console.log(set2.size)
+set2.clear();
+console.log(set2.size,set2)
+
+//3.Set的遍历操作:Set.Prototype.keys(),Map.prototype.values(),Map.prototype.entries(),forEach(),for...of
+let set3 = new Set(['h','i','j','k','l']);
+console.log(set3.keys(),set3.values(),set3.entries());
+
+for(let key of set3.keys()){
+	console.log(key)
+}
+
+for(let value of set3.values()){
+	console.log(value)
+}
+
+for(let entry of set3.entries()){
+	console.log(entry)
+}
+
+set3.forEach((value,key) => {
+	console.log(value,key)
+})
+
+console.log(Set.prototype[Symbol.iterator] === Set.prototype.values);
+
+for(let v of set3){
+	console.log(v)
+}
+
+//4.扩展运算符...,
+let set3Arr = [...set3]
+console.log(set3Arr)
+
+let set3Arr1 = Array.from(set3,item => item + '1234');
+console.log(set3Arr1)
+
+//4.Set数据结构<=>数组,Set数据结构=>对象
+//4.1 Set => 数组,使用...,Array.from()
+//4.2 数组 => Set,使用new Set();
+//4.3 Set => 对象,使用Set.prototype.entries()/Object.fromEntries()
+let set3Entries = set3.entries();
+let set3Obj = Object.fromEntries(set3Entries)
+console.log(set3Obj,typeof(set3Obj),1);
+
+
+//5.WeakSet
+let divSets = document.querySelectorAll('div.set');
+let ws = new WeakSet(divSets);
+let div = document.getElementById('set');
+console.log(ws,ws.has(div))
+
+
+
+</script>
+</body>
+</html>
