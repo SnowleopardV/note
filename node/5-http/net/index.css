@@ -11,6 +11,8 @@ tr:nth-child(even) {
   background-color: antiquewhite;
 }
 
+/* 这是一段注释 */
+
 img {
   width: 500px;
 }
