@@ -9,7 +9,6 @@ const server = http.createServer((request, response) => {
   console.log(request.url)
 
   if (request.method === 'POST') {
-
     // 方式一
     const urlObj = url.parse(request.url)
     const urlObj2 = url.parse(request.url, true)
@@ -17,7 +16,7 @@ const server = http.createServer((request, response) => {
     console.log(urlObj, urlObj2)
 
     // 方式二
-    const urlObj3 = new URL(request.url, )
+    const urlObj3 = new URL(request.url, 'http://127.0.0.1:9000')
     // 或者 const urlObj3 = new URL('http://127.0.0.1:9000' + request.url)
     console.log(urlObj3, urlObj3.searchParams.get('content'))
   }
