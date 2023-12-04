@@ -9,6 +9,11 @@ const app = express()
 // 路径为/将默认去找index.html
 app.use(express.static(path.resolve(__dirname, '../5-http/net')))
 
+// 如果静态资源中间件和路由同时匹配, 谁先匹配上就响应
+app.get('/', (request, reponse) => {
+  reponse.send('我才是首页~~~')
+})
+
 // 声明全局中间件
 // 需要每一次的访问, 都添加访问日志
 const recordLogMiddle = (request, response, next) => {
