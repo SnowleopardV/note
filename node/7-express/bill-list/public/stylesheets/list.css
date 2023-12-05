@@ -1,0 +1,50 @@
+.list-wrap {
+  width: 800px;
+  margin: 0 auto;
+  line-height: 50px;
+  font-size: 15px;
+  border: 1px solid bisque;
+}
+
+.output-time {
+  background-color: rgb(175, 206, 64);
+  height: 50px;
+  padding: 0 10px;
+}
+
+.input-time {
+  background-color: aqua;
+  height: 50px;
+  padding: 0 10px;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.output {
+  background-color: pink;
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 8px;
+  color: #ffffff;
+}
+
+.input {
+  background-color: rgb(99, 222, 148);
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 8px;
+  color: #ffffff;
+}
+
+.delete {
+  font-size: 13px;
+  color: rgb(99, 154, 222);
+}

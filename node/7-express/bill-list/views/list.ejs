@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./stylesheets/list.css">
+</head>
+
+<body>
+  <div class="list-wrap">
+    <% bills.forEach(item => { %>
+    <div class="bill">
+      <div class="<%= item.direction === '1' ? 'input-time' : 'output-time' %>"><%= item.time %></div>
+      <div class="detail">
+        <div class="info"><%= item.info %></div>
+        <div class="mout">¥ <%= item.mount %></div>
+        <div class="<%= item.direction === '1' ? 'input' : 'output' %>"><%= item.direction === '1' ? '收入' : '支出' %>
+        </div>
+        <a href="/bill/delete/<%= item.id %>">
+          <div class="delete">删除</div>
+        </a>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</body>
+
+</html>

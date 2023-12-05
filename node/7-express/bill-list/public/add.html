@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./stylesheets/add.css">
+</head>
+
+<body>
+  <h1 class="title">添加账单</h1>
+  <form action="/bill/add" class="form" method="post">
+    <div class="form-item">
+      用途: <input type="text" name="info" class="input">
+    </div>
+    <div class="form-item">
+      金额: <input type="number" name="mount" class="input">
+    </div>
+    <div class="form-item">
+      收支: <select name="direction" class="select">
+        <option value="1">收入</option>
+        <option value="-1">支出</option>
+      </select>
+    </div>
+    <div class="form-item">
+      时间: <input type="date" name="time" class="input">
+    </div>
+    <div class="submit-wrap">
+      <input type="submit" value="提交" class="submit">
+    </div>
+  </form>
+</body>
+
+</html>

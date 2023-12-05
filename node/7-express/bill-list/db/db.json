@@ -1,0 +1,39 @@
+{
+  "bills": [
+    {
+      "info": "彩票",
+      "mount": "500000",
+      "direction": "1",
+      "time": "2023-12-23",
+      "id": "q1x3xWF0N"
+    },
+    {
+      "info": "奖金",
+      "mount": "900000",
+      "direction": "1",
+      "time": "",
+      "id": "36iY6aGu2"
+    },
+    {
+      "info": "工资",
+      "mount": "90000",
+      "direction": "1",
+      "time": "2023-12-15",
+      "id": "O1Fr6IkJu"
+    },
+    {
+      "info": "用车",
+      "mount": "1000",
+      "direction": "-1",
+      "time": "2023-12-08",
+      "id": "x8mf3BYO_"
+    },
+    {
+      "info": "买电脑",
+      "mount": "3000",
+      "direction": "-1",
+      "time": "2023-12-14",
+      "id": "xw9r3QEB0"
+    }
+  ]
+}
