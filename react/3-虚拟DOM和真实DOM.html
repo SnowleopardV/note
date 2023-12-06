@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>demo</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    // 1. 创建虚拟DOM
+    const VDOM = <div>
+      <h1>Hello, React.</h1>
+      <p>这是通过script引入react库的方式创建React界面</p>
+    </div>
+
+    // 2. 渲染虚拟DOM到页面, 注意只能执行一次, 不然会覆盖, 整个是覆盖操作, 不是追加操作
+    ReactDOM.render(VDOM, document.getElementById('root'))
+
+    console.log('虚拟DOM', VDOM, typeof VDOM)
+    const TDOM = document.getElementById('root')
+    debugger;
+    console.log('真实DOM', TDOM, typeof TDOM)
+  </script>
+</body>
+
+</html>
