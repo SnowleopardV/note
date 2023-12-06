@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>demo</title>
+  <!-- 引入react核心库, 就有了React对象 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <!-- 引入react扩展库 react-dom, 就有了ReactDOM, 用于支持react操作DOM -->
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <!-- 引入babel, 用于将jsx转换成js -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <!-- 准备好容器 -->
+  <div id="root"></div>
+
+  <!-- 表示里面的内容是jsx, 并且使用babel进行转换 -->
+  <script type="text/babel">
+    // 1. 创建虚拟DOM
+    const VDOM = <div>
+      <h1>Hello, React.</h1>
+      <p>这是通过script引入react库的方式创建React界面</p>
+    </div>
+
+    // 2. 渲染虚拟DOM到页面
+    ReactDOM.render(VDOM, document.getElementById('root'))
+  </script>
+
+  <!-- <script type="text/babel">
+
+    function MyApp() {
+        return <h1>Hello, world! are you OK?</h1>;
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<MyApp />);
+
+    </script> -->
+  <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this page for starting a new React project with JSX:
+      https://react.dev/learn/start-a-new-react-project
+
+      Read this page for adding React with JSX to an existing project:
+      https://react.dev/learn/add-react-to-an-existing-project
+    -->
+</body>
+
+</html>
