@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    // 受控组件, 用户的输入, 能实时更新到状态中
+  class Info extends React.Component {
+    
+    state = { name: 'jack', address: '北京' }
+
+    submit = (e) => {
+      
+      e.preventDefault()  // 阻止默认提交事件
+
+      const { name, address } = this.state
+
+      alert(`用户的姓名是: ${name}, 地址是${address}`)
+    }
+
+    nameChange = (e) => this.setState({ name: e.target.value })
+    
+    addressChange = (e) => this.setState({ address: e.target.value })
+    
+    render() {
+      return (
+        <form onSubmit={this.submit}>
+          姓名: <input ref={this.nameRef} onChange={this.nameChange} name="name" type="text" placeholder="请输入姓名" /><br/><br/>
+          地址: <input ref={this.addressRef} onChange={this.addressChange} name="address" type="text" placeholder="请输入地址" /><br/><br/>
+          <button>提交</button>
+        </form>
+      )
+    }
+  }
+
+  ReactDOM.render(<Info />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
