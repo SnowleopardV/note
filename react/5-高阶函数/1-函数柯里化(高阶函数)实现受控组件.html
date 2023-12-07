@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    // 一、高阶函数
+    // 满足以下2个条件中的一个, 就是高阶函数
+    // 1. 函数A的入参是一个函数, 那么函数A就是一个高阶函数
+    // 2. 函数A的返回值是另一个函数, 那么函数A就是一个高阶函数
+
+    // 二、常见的高阶函数
+    // 1. Promise
+    new Promise(() => {})
+
+    // 2. setTimeout、setInterval
+    setTimeout(() => {})
+
+    // 3. 数组的方法
+    const arr = []
+    arr.map(() => {})
+
+    // 其他....
+
+    // 三、函数的柯里化
+    // 通过函数调用返回另一个函数的方式, 实现多次接收参数, 最后统一处理的函数编码方式
+
+    const keli = (a) => (b) => (c) => a + b + c
+    console.log(keli(1))
+    console.log(keli(1)(2))
+    console.log(keli(1)(2)(3))
+
+
+    // 受控组件, 用户的输入, 能实时更新到状态中
+      class Info extends React.Component {   
+        state = { name: 'jack', address: '北京' }
+
+        submit = (e) => {
+          e.preventDefault() // 阻止默认提交事件
+
+          const { name, address } = this.state
+
+          alert(`用户的姓名是: ${name}, 地址是${address}`)
+        }
+
+        stateUpdate = (stateKey) => e => {
+          this.setState({ [stateKey]: e.target.value })
+        }
+
+        render() {
+          return (
+            <form onSubmit={this.submit}>
+              姓名:{' '}
+              <input
+                ref={this.nameRef}
+                onChange={this.stateUpdate('name')}
+                name='name'
+                type='text'
+                placeholder='请输入姓名'
+              />
+              <br />
+              <br />
+              地址:{' '}
+              <input
+                ref={this.addressRef}
+                onChange={this.stateUpdate('address')}
+                name='address'
+                type='text'
+                placeholder='请输入地址'
+              />
+              <br />
+              <br />
+              <button>提交</button>
+            </form>
+          )
+        }
+      }
+
+      ReactDOM.render(<Info />, document.getElementById('root'))
+    </script>
+</body>
+
+</html>

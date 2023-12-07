@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class Count extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = { count: 0 }
+      }
+
+      add = () => this.setState({ count: this.state.count + 1 })
+      updateForce = () => this.forceUpdate()
+
+      shouldComponentUpdate() {
+        console.log('shouldComponentUpdate')
+        // 必须要要返回一个Boolean类型的值, true则更新状态, false则不更新状态
+        return true
+      }
+
+      componentWillUpdate() {
+        console.log('componentWillUpdate')
+      }
+
+      render() {
+        console.log('render')
+        return (<div>
+          <p>计数{this.state.count}</p>
+          <button onClick={this.add}>点击+1</button> <br /><br />
+          <button onClick={this.updateForce}>强制更新</button><br />
+        </div>)
+      }
+
+      componentDidUpdate() {
+        console.log('componentDidUpdate')
+      }
+    }
+   
+    ReactDOM.render(<Count />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
