@@ -16,8 +16,8 @@
     const b = new Boy()
     const g = new Girl()
 
-    console.log(b)
-    console.log(g)
+    // console.log(b)
+    // console.log(g)
 
     class Person {
       // 构造器方法
@@ -30,14 +30,24 @@
           console.log('I am Happy')
         }
       }
-      // 一般方法
-      // speak的方法是放在了类的原型对象上
-      // speak中的this指向实例化之后的对象
+      // 静态属性
+      // 只存在在类上, 不在类实例化之后的对象上, 所以只能通过类来访问, Person.money
+      static money = 900000
+      // 类中可以直接写赋值语句, 表示给Person的实例对象添加一个属性sex, 值为'male' 
+      sex = 'male'
+      speak = () => console.log(38, this)
+      // 一般方法,
+      // 通过声明式, speak的方法是放在了类的原型对象上
+      // 在通过类实例化之后的对象调用speak方法时, speak中的this指向实例化之后的对象
       speak() {
-        console.log(33, this)
+        console.log(33, this, this.money)
         console.log(`我叫${this.name}, 我今年${this.age}`)
       }
     }
+
+    console.log(46, Person.money)
+    const pp = new Person('lilei', 29)
+    console.log(pp.money)
 
     // 类的继承
     class Student extends Person {
@@ -62,12 +72,22 @@
       teach() {
         console.log('I am teaching')
       }
+
+      logThis() {
+        console.log(67, this)
+      }
     }
+
+
+    const t1 = new Teacher('Lucy', 25, 3)
+    // 类一般方法上的this指向
+    t1.logThis()
+    const log = t1.logThis
+    log()
 
     const p1 = new Person('Tom', 20)
     const p2 = new Person('Jack', 21)
     const s1 = new Student('Lily', 23)
-    const t1 = new Teacher('Lucy', 25, 3)
     console.log(p1)
     console.log(p2)
     console.log(t1)
@@ -77,6 +97,64 @@
     t1.speak()
     t1.teach()
     t1.laugh()
+
+    const thisObj = {
+      printThis() {
+        console.log(this)
+      }
+    }
+    thisObj.printThis()
+
+    const print = thisObj.printThis
+    print()
+
+    function demo() {
+      console.log(102, this)
+    }
+
+    function demo2() {
+      'use strict'
+      console.log(107, this)
+    }
+
+    demo()
+    demo2()
+
+    class MyComponent {
+      constructor(name) {
+        this.name = name
+        this.say = () => {
+          console.log(117)
+        }
+        this.go2 = this.go2.bind(this)
+      }
+
+      say() {
+        console.lg(119)
+      }
+
+      go() {
+        console.log(126, this)
+      }
+
+      go2() {
+        console.log(126, this)
+      }
+
+      click() {
+        this.go()
+      }
+
+      click2() {
+        const gofn = this.go2
+        gofn()
+      }
+    }
+    const myComponent = new MyComponent('Lilei')
+    myComponent.say()
+    myComponent.go()
+    myComponent.click()
+    myComponent.click2()
   </script>
 </body>
 

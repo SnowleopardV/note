@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div id="root2"></div>
+  <script type="text/babel">
+    // 1. 创建类组件
+    class ClComponent extends React.Component {
+      constructor(props) {
+        // 必须要执行这一步, 除非该组件没有构造器
+        super(props)
+        // 初始化state
+        this.state = { isSunny: true, temprature: 10 } 
+      }
+      changeWeather() {
+        console.log(25, this)
+        // 注意: 状态不能直接更改, 需要调用React内置的API setState
+        // setState是合并的动作, 不是替换的动作
+        // this.state.isSunny = !this.state.isSunny
+        this.setState({ isSunny: !this.state.isSunny })
+      }
+      changeTemprature() {
+        this.setState({ temprature: this.state.temprature + 1 })
+      }
+      render() {
+        // 读取状态
+        return (
+          <div>
+            <h1 onClick={this.changeWeather.bind(this)}>今天天气是{ this.state.isSunny ? '晴天' : '下雨了'  }</h1>
+            <h2 onClick={this.changeTemprature.bind(this)}>温度 { this.state.temprature } 度</h2>
+          </div>
+        )
+      }
+    }
+
+    // 类组件的简写方式
+    // 建议采用如下写法: 
+    // 1. 代码更简洁
+    // 2. 因为箭头函数中没有自己的this,   this的指向是函数定义时外层的this
+    class ClComponent2 extends React.Component{
+      state = { isSunny: true, temprature: 10 }
+      changeWeather = () => this.setState({ isSunny: !this.state.isSunny })
+      changeTemprature = () => this.setState({ temprature: this.state.temprature + 1 })
+      render = () => (
+          <div>
+            <h1 onClick={this.changeWeather}>今天天气是{ this.state.isSunny ? '晴天' : '下雨了'  }</h1>
+            <h2 onClick={this.changeTemprature}>温度 { this.state.temprature } 度</h2>
+          </div>  
+        )
+    }
+
+    // 2. 渲染类组件到页面上
+    ReactDOM.render(<ClComponent/>, document.getElementById('root'))
+    ReactDOM.render(<ClComponent2/>, document.getElementById('root2'))
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div id="root2"></div>
+  <div id="root3"></div>
+  <div id="root4"></div>
+  <div id="root5"></div>
+  <div id="root6"></div>
+
+  <script type="text/babel">
+    // 一、字符串类型的ref, 有效率问题. 不推荐使用了
+    class Info extends React.Component {
+      getName = () => {
+        console.log(this)
+        alert(this.refs.name.value)
+      }
+
+      getAddress = () => {
+        alert(this.refs.address.value)
+      }
+    
+      render = () => {
+        return (
+        <div>
+          姓名: <input ref="name" type="text" placeholder="请输入内容" /><br/><br/>
+          <button onClick={this.getName}>点击获取</button> <br /><br/>
+          地址: <input ref="address" onBlur={this.getAddress} type="text" placeholder="请输入内容" /><br/>
+        </div>
+      )}
+    }
+
+    // ReactDOM.render(<Info />, document.getElementById('root'))
+
+    // 二、回调函数形式的ref 
+    // 1. (内联函数形式, 在初始化时会执行一次, 在更新时会执行两次, 第一次入参是null, 第2次才是真正的DOM节点)
+    class Info2 extends React.Component {
+      state = { isHot: true }
+      getName = () => {
+        console.log(50, this.input1)
+        alert(this.input1.value)
+      }
+      changeWeather = () => {
+        this.setState({ isHot: !this.state.isHot })
+      }
+      render() {
+        return (
+          <div>
+            {/* 这是一段注释  */}
+            <h1>今天天气{ this.state.isHot ? '炎热' : '凉爽' }</h1>
+            姓名: <input ref={(currentNode) => { this.input1 = currentNode; console.log(52, currentNode) }} type="text" placeholder="请输入内容" /><br/><br/>
+            <button onClick={this.getName}>点击获取</button> <br /><br/>
+            地址: <input ref="address" onBlur={this.getAddress} type="text" placeholder="请输入内容" /><br/>
+            <button onClick={this.changeWeather}>改变天气</button> <br /><br/>
+          </div>
+        )
+      }
+    }
+
+    // ReactDOM.render(<Info2 />, document.getElementById('root2'))
+
+    // 2. 类绑定的函数, 没有上面内联函数的问题, 只会在初始化的时候才会执行一次
+    class Info3 extends React.Component {
+      state = { isHot: true }
+      getName = () => {
+        console.log(50, this.input1)
+        alert(this.input1.value)
+      }
+      changeWeather = () => {
+        this.setState({ isHot: !this.state.isHot })
+      }
+      getInputRef = (currentNode) => { 
+        this.input1 = currentNode;
+        console.log(52, currentNode) 
+      }
+      getInpput2Ref  = (currentNode) => {
+        this.input2 = currentNode
+        console.log(53, currentNode)
+      }
+      getAddress = () => {
+        const { input2 }  = this
+        console.log(92, input2)
+        alert(input2.value)
+      }
+      render() {
+        return (
+          <div>
+            {/* 这是一段注释  */}
+            <h1>今天天气{ this.state.isHot ? '炎热' : '凉爽' }</h1>
+            姓名: <input ref={this.getInputRef} name="name" type="text" placeholder="请输入姓名" /><br/><br/>
+            <button onClick={this.getName}>点击获取</button> <br /><br/>
+            地址: <input ref={this.getInpput2Ref} name="address" onBlur={this.getAddress} type="text" placeholder="请输入地址" /><br/>
+            <button onClick={this.changeWeather}>改变天气</button> <br /><br/>
+            <p>这个是类绑定的方法</p>
+          </div>
+        )
+      }
+    }
+
+    // ReactDOM.render(<Info3 />, document.getElementById('root3'))
+
+    // 三、createRef API 创建ref
+    class Info4 extends React.Component {
+    
+      // 使用React.createRef会生成一个容器, 用来保存被ref所表示的DOM节点
+      input1Ref = React.createRef()
+      input2Ref = React.createRef()
+
+      state = { isHot: true }
+
+      getName = () => {
+        console.log(120, this.input1Ref)
+        alert(this.input1Ref.current.value)
+      }
+
+      getAddress = () => {
+        console.log(124, this.input2Ref)
+        alert(this.input2Ref.current.value)
+      }
+
+      changeWeather = () => {
+        this.setState({ isHot: !this.state.isHot })
+      }
+
+      render() {
+        return (
+          <div>
+            {/* 这是一段注释  */}
+            <h1>今天天气{ this.state.isHot ? '炎热' : '凉爽' }</h1>
+            姓名: <input ref={this.input1Ref} name="name" type="text" placeholder="请输入姓名" /><br/><br/>
+            <button onClick={this.getName}>点击获取</button> <br /><br/>
+            地址: <input ref={this.input2Ref} name="address" onBlur={this.getAddress} type="text" placeholder="请输入地址" /><br/>
+            <button onClick={this.changeWeather}>改变天气</button> <br /><br/>
+            <p>这个通过React.createRef创建ref</p>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Info4 />, document.getElementById('root4'))
+  </script>
+</body>
+
+</html>
