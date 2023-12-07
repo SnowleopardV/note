@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class Info extends React.Component {
+        state = { opacity: 1 }
+
+        unmount = () => {
+          // 组件的卸载
+          ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+        }
+
+        componentWillUnmount() {
+          console.log(25)
+          clearInterval(this.timer)
+        }
+
+        componentDidMount() {
+          console.log(30)
+          const timer = setInterval(() => {
+            let { opacity } = this.state
+
+            if (opacity <= 0) opacity = 1
+            else opacity -= 0.1
+            this.setState({ opacity })
+          }, 200)
+        }
+
+        render() {
+          console.log(37)
+          return (
+            <div>
+              <h1 style={{ opacity: this.state.opacity }}>这个是一个有动画的标题</h1>
+              <button onClick={this.unmount}>点击销毁组件</button>
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<Info />, document.getElementById('root'))
+    </script>
+</body>
+
+</html>
