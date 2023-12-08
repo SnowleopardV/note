@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .news-container {
+      height: 150px;
+      background-color: skyblue;
+      overflow: auto;
+    }
+
+    .new {
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class News extends React.Component {
+      state = { news: [] }
+
+      componentDidMount() {
+        this.timer = setInterval(() => {
+          const news = this.state.news
+          const add = '新闻' + (news.length + 1)
+          this.setState({ news: [add, ...news] })
+        }, 1000)
+      }
+
+      render() {
+        return (
+          <div className="news-container" ref="news">
+            {/* 不推荐index作为唯一的key, 这里仅做演示用 */}
+            { this.state.news.map((item, index) => 
+              <div key={index} className='new'>{item}</div>
+            )}
+          </div>
+        )
+      }
+
+      getSnapshotBeforeUpdate() {
+        return this.refs.news.scrollHeight
+      }
+
+      componentDidUpdate(preprops, prestate, height) {
+        console.log(this.refs.news.scrollHeight,height )
+        this.refs.news.scrollTop += this.refs.news.scrollHeight - height
+      }
+    }
+   
+    ReactDOM.render(<News />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>

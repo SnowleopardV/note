@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class Person extends React.Component {
+        state = { persons: [
+          { id: 1, name: '老李', age: 20 },
+          { id: 2, name: '老张', age: 21 }
+        ] }
+        
+        add = () => {
+          const wang = { id: this.state.length + 1, name: '老王', age: 19 }
+          this.setState({ persons: [wang, ...this.state.persons] })
+        }
+
+        render() {
+          console.log(37)
+          return (
+            <div>
+              <h1>这个是人员展示</h1>
+              <h3>使用index作为key</h3>
+              <div>
+                { this.state.persons.map((item, index) => (
+                  <li key={index}>
+                    人员信息: {item.name} ---- {item.age}
+                    <input type="text" />
+                  </li>
+                )) }
+              </div>
+              <h3>使用数据的唯一标识id作为key</h3>
+              <div>
+                { this.state.persons.map(item => (
+                  <li key={item.id}>
+                    人员信息: {item.name} ---- {item.age}
+                    <input type="text" />
+                  </li>
+                )) }
+              </div>
+              <br/><br/>
+              <button onClick={this.add}>点击添加老王</button>
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<Person />, document.getElementById('root'))
+
+      /* 
+      使用index作为key的慢动作回放
+        初始数据:
+         [
+           { id: 1, name: '老李', age: 20 },
+           { id: 2, name: '老张', age: 21 }
+         ]
+        初始虚拟DOM
+          <li key=0>
+            人员信息: 老李 ---- 20
+            <input type="text" />
+          </li>
+          <li key=1>
+            人员信息: 老张 ---- 21
+            <input type="text" />
+          </li>
+
+        更新数据:
+          [
+            { id: 3, name: '老王', age: 19 }
+            { id: 1, name: '老李', age: 20 },
+            { id: 2, name: '老张', age: 21 }
+          ]
+        更新虚拟DOM
+          <li key=0>
+            人员信息: 老王 ---- 19
+            <input type="text" />
+          </li>
+          <li key=1>
+            人员信息: 老李 ---- 20
+            <input type="text" />
+          </li>
+          <li key=2>
+            人员信息: 老张 ---- 21
+            <input type="text" />
+          </li>
+      */
+
+
+      /* 
+      使用数据的唯一标识id作为key的慢动作回放
+        初始数据:
+         [
+           { id: 1, name: '老李', age: 20 },
+           { id: 2, name: '老张', age: 21 }
+         ]
+        初始虚拟DOM
+          <li key=1>
+            人员信息: 老李 ---- 20
+            <input type="text" />
+          </li>
+          <li key=2>
+            人员信息: 老张 ---- 21
+            <input type="text" />
+          </li>
+
+        更新数据:
+          [
+            { id: 3, name: '老王', age: 19 }
+            { id: 1, name: '老李', age: 20 },
+            { id: 2, name: '老张', age: 21 }
+          ]
+        更新虚拟DOM
+          <li key=3>
+            人员信息: 老王 ---- 19
+            <input type="text" />
+          </li>
+          <li key=1>
+            人员信息: 老李 ---- 20
+            <input type="text" />
+          </li>
+          <li key=2>
+            人员信息: 老张 ---- 21
+            <input type="text" />
+          </li>
+      */
+
+
+    </script>
+</body>
+
+</html>
