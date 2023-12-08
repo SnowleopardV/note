@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class Count extends React.Component {
+      constructor(props) {
+        console.log('constructor')
+        super(props)
+        this.state = { count: 1 }
+      }
+      add = () => this.setState({ count: this.state.count + 1 })
+      destory = () => ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+      // 在新版本上React上, 不推荐使用componentWillMount
+      // componentWillMount() {
+      //   console.log('componetWillMount')
+      // }
+
+      // 新版本React 新增了getDerivedStateFromProps
+      // 注意: 这个是放在组件上的静态方法
+      static getDerivedStateFromProps (props, state) {
+        console.log('getDerivedStateFromProps')
+        console.log(33, props, state)
+        return props // 状态以props传入为主
+        // return state 状态以本身的state为主
+      }
+      render() {
+        console.log('render')
+        return (<div>
+          <p>计数{this.state.count}</p>
+          <button onClick={this.add}>点击+1</button> <br /><br />
+          <button onClick={this.destory}>点击销毁组件</button><br />
+        </div>)
+      }
+      componentDidMount() {
+        console.log('componentDidMount')
+      }
+      componentWillUnmount() {
+        console.log('componentWillUnmount')
+      }
+    }
+   
+    ReactDOM.render(<Count count={100} />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>

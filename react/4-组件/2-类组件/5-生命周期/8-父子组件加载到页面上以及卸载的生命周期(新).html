@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class Parent extends React.Component {
+      constructor(props) {
+        console.log('Parent-constructor')
+        super(props)
+        this.state = { count: 0 }
+      }
+
+      add = () => this.setState({ count: this.state.count + 1 })
+      destory = () => ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+
+      static getDerivedStateFromProps (props, state) {
+        console.log('Parent-getDerivedStateFromProps')
+        return state
+      }
+
+      render() {
+        console.log('Parent-render')
+        return (<div>
+          <Son count={this.state.count} />
+          <p>计数{this.state.count}</p>
+          <button onClick={this.add}>点击+1</button> <br /><br />
+          <button onClick={this.destory}>点击销毁组件</button><br />
+        </div>)
+      }
+
+      componentDidMount() {
+        console.log('Parent-componentDidMount')
+      }
+
+      componentWillUnmount() {
+        console.log('Parent-componentWillUnmount')
+      }
+    }
+
+    class Son extends React.Component {
+      constructor(props) {
+        console.log('Son-constructor')
+        super(props)
+      }
+
+      static getDerivedStateFromProps (props, state) {
+        console.log('Son-getDerivedStateFromProps')
+        return state
+      }
+      
+      render() {
+        console.log('Son-render')
+        return (<div>
+          <p>计数{this.props.count}</p>
+        </div>)
+      }
+
+      componentDidMount() {
+        console.log('Son-componentDidMount')
+      }
+
+      componentWillUnmount() {
+        console.log('Son-componentWillUnmount')
+      }
+    }
+   
+    ReactDOM.render(<Parent />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
