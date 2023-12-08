@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class Parent extends React.Component {
+      state = { count: 0 }
+
+      add = () => this.setState({ count: this.state.count + 1 })
+
+      static getDerivedStateFromProps(props, state) {
+        console.log('Parent-getDerivedStateFromProps')
+        return state
+      }
+
+      shouldComponentUpdate() {
+        console.log('Parent-shouldComponentUpdate')
+        return true
+      }
+
+      render() {
+        console.log('Parent-render')
+        return (<div>
+          <Son count={this.state.count} />
+          <button onClick={this.add}>点击+1</button> <br /><br />
+        </div>)
+      }
+
+      getSnapshotBeforeUpdate() {
+        console.log('Parent-getSnapshotBeforeUpdate')
+        return 'Parent-这是一个快照的返回值'
+      }
+
+      componentDidUpdate(preprops, prestate, snapshotValue) {
+        console.log('Parent-componentDidUpdate')
+      }
+    }
+
+    class Son extends React.Component {
+      
+      static getDerivedStateFromProps(props, state) {
+        console.log('Son-getDerivedStateFromProps')
+        return state
+      }
+
+      shouldComponentUpdate() {
+        console.log('Son-shouldComponentUpdate')
+        return true
+      }
+
+      render() {
+        console.log('Son-render')
+        return (<div>
+          <p>计数{this.props.count}</p>
+        </div>)
+      }
+
+      getSnapshotBeforeUpdate() {
+        console.log('Son-getSnapshotBeforeUpdate')
+        return 'Son-这是一个快照的返回值'
+      }
+
+      componentDidUpdate() {
+        console.log('Son-componentDidUpdate')
+      }
+    }
+   
+    ReactDOM.render(<Parent />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
