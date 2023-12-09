@@ -1,0 +1,21 @@
+.footer {
+  width: 500px;
+  padding: 15px 8px;
+  border: 1px solid skyblue;
+  margin-top: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.count {
+  margin-left: 30px;
+}
+
+.clearDonedBtn {
+  background-color: rgb(233, 58, 58);
+  color: #ffffff;
+  border: 0;
+  font-size: 7px;
+}

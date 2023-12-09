@@ -1,0 +1,18 @@
+.todoItemWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.matterWrap {
+  display: flex;
+  align-items: center;
+}
+
+.deleteBtn {
+  background-color: rgb(233, 58, 58);
+  color: #ffffff;
+  border: 0;
+  font-size: 7px;
+}
