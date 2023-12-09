@@ -6,7 +6,7 @@ import { nanoid as nanoId } from 'nanoid'
 export default class Header extends Component {
 
   static propTypes = {
-    daddTodo: PropTypes.func.isRequired
+    addTodo: PropTypes.func.isRequired
   }
 
   addMatter = (e) => {

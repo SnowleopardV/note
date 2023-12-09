@@ -12,7 +12,7 @@ export default class List extends Component {
   }
 
   render () {
-    const { todos, updateTodo, deleteTodo } = this.props
+    const { todos } = this.props
     return (
       <div className={styles.todosWrap}>
         {
