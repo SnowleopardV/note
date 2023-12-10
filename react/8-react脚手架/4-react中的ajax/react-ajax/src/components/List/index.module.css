@@ -1,0 +1,18 @@
+.listWrap {
+  margin: 40px auto;
+  width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listItem {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  width: 100px;
+  height: 100px;
+}

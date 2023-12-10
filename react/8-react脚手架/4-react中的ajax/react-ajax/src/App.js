@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import GithubUser from './pages/GithubUser'
 
 export default class App extends Component {
   state = { bills: [] }
 
   componentDidMount() {
     axios
-      .get('http://127.0.0.1:3000/index.html')
+      .get('/bill/billList')
       .then((response) => {
         console.log(11, response.data)
         this.setState({ bills: response.data })
@@ -17,12 +18,16 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        {/* {this.state.bills.map((bill) => (
-          <div key={bill.id}>
-            {bill.info} --- {bill.mount} ---{' '}
-            {bill.direction === '1' ? '收入' : '支出'} ---{bill.time}
-          </div>
-        ))} */}
+        <h1>收支情况</h1>
+        <div>
+          {this.state.bills.map((bill) => (
+            <div key={bill.id}>
+              {bill.info} --- {bill.mount} ---{' '}
+              {bill.direction === '1' ? '收入' : '支出'} ---{bill.time}
+            </div>
+          ))}
+        </div>
+        <GithubUser />
       </div>
     )
   }
