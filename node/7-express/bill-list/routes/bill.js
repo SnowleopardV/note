@@ -15,6 +15,12 @@ router.get('/list', function (req, res, next) {
   res.render('list', { bills })
 })
 
+router.get('/billList', function (req, res, next) {
+  const bills = db.get('bills').value()
+  console.log(14, bills)
+  res.send(bills)
+})
+
 router.get('/add', function (req, res, next) {
   res.render('add')
 })
