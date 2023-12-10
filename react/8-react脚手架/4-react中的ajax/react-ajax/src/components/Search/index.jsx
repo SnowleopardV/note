@@ -8,7 +8,7 @@ export default class Search extends Component {
   search = () => {
     PubSub.publish('listStateChange', { isFirst: false, isLoading: true })
     const keyWord = this.keyWordNode.value
-    axios.get(`http://api.github.com/search/users2?q=${keyWord}`).then(response => {
+    axios.get(`http://api.github.com/search/users?q=${keyWord}`).then(response => {
       PubSub.publish('listStateChange', { users: response?.data?.items, isLoading: false })
     }).catch(error => {
       PubSub.publish('listStateChange', { isFirst: false, isLoading: false, error: error.message })

@@ -12,10 +12,7 @@ export default class List extends Component {
   }
 
   componentDidMount () {
-    this.token = PubSub.subscribe('listStateChange', (_, data) => {
-      this.setState(data)
-      console.log(16, data)
-    })
+    this.token = PubSub.subscribe('listStateChange', (_, data) => this.setState(data))
   }
 
   componentWillUnmount () {
