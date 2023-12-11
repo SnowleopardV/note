@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 // import { NavLink } from 'react-router-dom'
 // import styles from './index.module.css'
 import MyNavLink from '../MyNavLink'
+import LinkContent from '../LinkContent'
 
 
 export default class NavBar extends Component {
@@ -34,9 +35,11 @@ export default class NavBar extends Component {
         </NavLink> */}
 
         {/* 封装的路由链接 MyNavLink */}
+        {/* 标签体的内容由props.children进行传递 */}
         <MyNavLink to='/home'><p>首页</p></MyNavLink>
         <MyNavLink to='/list'><p>列表</p></MyNavLink>
         <MyNavLink to='/detail'><p>详情</p></MyNavLink>
+        <MyNavLink to='/detail'><LinkContent name='jack' age="100" /></MyNavLink>
       </div>
     )
   }
