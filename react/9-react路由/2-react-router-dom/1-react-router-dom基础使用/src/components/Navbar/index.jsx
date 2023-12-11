@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import styles from './index.module.css'
+// import { Link } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
+// import styles from './index.module.css'
+import MyNavLink from '../MyNavLink'
+
 
 export default class NavBar extends Component {
   render () {
+    console.log('normal-component', this.props)
     return (
       <div>
         <h1>点击切换路由</h1>
-        {/* 编写路由链接 */}
-        <Link to='/home' className={styles.link}>
+        {/* 编写路由链接 Link*/}
+        {/* <Link to='/home' className={styles.link}>
           首页
         </Link>
         <Link to='/list' className={styles.link}>
@@ -16,7 +20,23 @@ export default class NavBar extends Component {
         </Link>
         <Link to='/detail' className={styles.link}>
           详情
-        </Link>
+        </Link> */}
+
+        {/* 编写路由链接 NavLink*/}
+        {/* <NavLink to='/home' activeClassName={styles.activeLink} className={styles.link}>
+          首页
+        </NavLink>
+        <NavLink to='/list' activeClassName={styles.activeLink} className={styles.link}>
+          列表
+        </NavLink>
+        <NavLink to='/detail' activeClassName={styles.activeLink} className={styles.link}>
+          详情
+        </NavLink> */}
+
+        {/* 封装的路由链接 MyNavLink */}
+        <MyNavLink to='/home'><p>首页</p></MyNavLink>
+        <MyNavLink to='/list'><p>列表</p></MyNavLink>
+        <MyNavLink to='/detail'><p>详情</p></MyNavLink>
       </div>
     )
   }
