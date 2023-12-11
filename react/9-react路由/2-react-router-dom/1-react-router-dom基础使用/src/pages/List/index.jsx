@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import styles from './index.module.css'
 
 export default class List extends Component {
   render () {
     return (
-      <div style={{ width: '200px', height: '200px', background: 'skyblue' }}>List....</div>
+      <div className={styles.list}>List....</div>
     )
   }
 }

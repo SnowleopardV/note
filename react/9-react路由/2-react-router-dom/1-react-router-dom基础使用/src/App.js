@@ -19,12 +19,9 @@ function App() {
         </Link>
       </div>
 
-      <Routes>
-        <Route to='/' Component={Home}></Route>
-        <Route to='/home' Component={Home}></Route>
-        <Route to='/list' Component={List}></Route>
-        <Route to='/detail' Component={Detail}></Route>
-      </Routes>
+      <Route path='/home' component={Home}></Route>
+      <Route path='/list' component={List}></Route>
+      <Route path='/detail' component={Detail}></Route>
     </div>
   )
 }

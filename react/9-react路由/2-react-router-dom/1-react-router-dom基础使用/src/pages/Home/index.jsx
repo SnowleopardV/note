@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import styles from './index.module.css'
 
 export default class Home extends Component {
   render () {
     return (
-      <div style={{ width: '200px', height: '200px', background: 'skyblue' }}>
+      <div className={styles.home}>
         Home....
       </div>
     )
