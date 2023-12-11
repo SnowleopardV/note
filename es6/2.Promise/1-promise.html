@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const p = new Promise((resolve, reject) =>
+      setTimeout(() => {
+        resolve(100)
+      }, 3000)
+    )
+
+    p.then(
+        (res) => {
+          console.log(20, 'res', res)
+          return Promise.resolve('Promise resolve data')
+        },
+        (error) => console.log(23, 'error', error)
+      )
+      .then(
+        (res) => {
+          console.log(26, 'res', res)
+          return 1
+        },
+        (error) => console.log(29, 'error', error)
+      )
+      .then(
+        (res) => {
+          console.log(28, 'res', res)
+          // return undefinde
+        },
+        (error) => console.log(30, 'error', error)
+      )
+      .then(
+        (res) => {
+          console.log(40, res) // undefinde
+          throw new Error('reject error')
+        },
+        (error) => console.log(43, 'error', error)
+      ).catch(error => console.log(44, error.toString()))
+  </script>
+</body>
+
+</html>
