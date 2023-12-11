@@ -1,10 +1,11 @@
 .home {
   width: 800px;
-  height: 200px;
+  padding: 40px;
+  min-height: 200px;
   background: skyblue;
   text-align: center;
-  font-size: 24px;
-  line-height: 200px;
+  font-size: 20px;
+  line-height: 30px;
   border-radius: 16px;
   color: #ffffff;
 }
