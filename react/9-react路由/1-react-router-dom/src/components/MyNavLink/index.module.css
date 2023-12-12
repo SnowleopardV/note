@@ -1,0 +1,17 @@
+.link {
+  width: 100px;
+  min-height: 30px;
+  display: inline-block;
+  background-color: aqua;
+  margin: 10px;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 30px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.activeLink {
+  background-color: beige;
+}
