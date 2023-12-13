@@ -1,0 +1,10 @@
+.list {
+  width: 800px;
+  height: 200px;
+  background: yellowgreen;
+  text-align: center;
+  font-size: 24px;
+  line-height: 200px;
+  border-radius: 16px;
+  color: #ffffff;
+}
