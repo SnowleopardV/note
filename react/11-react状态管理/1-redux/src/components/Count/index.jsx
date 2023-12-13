@@ -37,8 +37,8 @@ export default class Count extends Component {
     )
   }
 
-  componentDidMount () {
-    // redux只负责维护状态, 不负责更新界面, 需要使用store.subscribe去监听状态的变化
-    store.subscribe(() => this.setState({}))
-  }
+  // componentDidMount () {
+  //   // redux只负责维护状态, 不负责更新界面, 需要使用store.subscribe去监听状态的变化
+  //   store.subscribe(() => this.setState({}))
+  // }
 }
