@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    const MyContext = React.createContext()
+    const { Provider, Consumer } = MyContext
+
+    class A extends React.Component {
+
+      state = { name: 'lilei', age: 20 }
+
+      add = () => this.setState({ age: this.state.age + 1 })
+
+      render() {
+        const { name, age } = this.state
+        return (<div style={{ border: '1px solid black', padding: '10px' }}>
+          <h1>这是A组件, 姓名为{this.state.name}---年龄{this.state.age}</h1>
+          <Provider value={{ name, age, add: this.add }}>
+            <B/>
+          </Provider>
+        </div>)
+      }
+    }
+
+    class B extends React.Component {
+      render() {
+        return (<div  style={{ border: '1px solid black', padding: '10px' }}>
+          <h1>这是B组件</h1>
+          <C/>
+        </div>)
+      }
+    }
+
+    class C extends React.Component {
+      render() {
+        return (<div style={{ border: '1px solid black', padding: '10px' }}>
+          <h1>这是C组件
+            <Consumer>{
+              value => {
+                console.log(49, value)
+                return `${JSON.stringify(value)}`
+              }
+            }</Consumer>
+            <D />
+          </h1>
+        </div>)
+      }
+    }
+
+    function D() {
+      return (<div style={{ border: '1px solid black', padding: '10px' }}>
+        <h1>这是D组件</h1>
+        <Consumer>
+          {
+            value => {
+              console.log(49, value)
+              return `${JSON.stringify(value)}`
+            }
+          }
+        </Consumer>
+        <E/>
+      </div>)
+    }
+
+    class E extends React.Component {
+
+      static contextType = MyContext
+
+      render() {
+        console.log(82, this.context)
+        return (<div style={{ border: '1px solid black', padding: '10px' }}>
+          <h1>这是E组件</h1>
+          <div onClick={this.context.add}>点击年龄+1</div>
+          <div>{JSON.stringify(this.context)}</div>
+        </div>)
+      }
+    }
+
+    ReactDOM.render(<A/>, document.getElementById('root'))
+ 
+  </script>
+</body>
+
+</html>

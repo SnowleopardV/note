@@ -10,11 +10,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <>
         {this.state.showCount ? <Count /> : null}
         <Welcome />
         <button onClick={this.unMountCount}>点击卸载Count组件</button>
-      </div>
+      </>
     )
   }
 }
