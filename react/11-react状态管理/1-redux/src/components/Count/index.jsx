@@ -6,17 +6,17 @@ export default class Count extends Component {
 
   increment = () => {
     const { value } = this.selectNode
-    createIncrement(value)
+    store.dispatch(createIncrement(value))
   }
 
   decrement = () => {
     const { value } = this.selectNode
-    createDecrement(value)
+    store.dispatch(createDecrement(value))
   }
 
   incrementBySyncAction = () => {
     const { value } = this.selectNode
-    setTimeout(() => { createIncrement(value) }, 1000)
+    setTimeout(() => { store.dispatch(createIncrement(value)) }, 1000)
   }
 
   render () {
