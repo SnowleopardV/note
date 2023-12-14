@@ -3,6 +3,7 @@ import Home from '../pages/Home'
 import List from '../pages/List'
 import Message from '../components/Message'
 import News from '../components/News'
+import MessageDetail from '../components/MessageDetail'
 
 // 路由表
 const routes = [
@@ -13,6 +14,15 @@ const routes = [
       {
         path: 'message',
         element: <Message />,
+        children: [
+          {
+            // 1. params形式传参
+            // path: 'detail/:id/:title/:content',
+            // 2. 3. search和state形式传参
+            path: 'detail',
+            element: <MessageDetail />,
+          },
+        ],
       },
       {
         path: 'news',

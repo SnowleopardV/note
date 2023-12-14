@@ -9,7 +9,6 @@ export default function App () {
   const element = useRoutes(routes)
 
   const getClassName = active => {
-    console.log(10, active)
     return active.isActive ? `${styles.link} ${styles.active}` : styles.link
   }
 
