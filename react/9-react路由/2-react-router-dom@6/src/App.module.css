@@ -1,0 +1,21 @@
+.app {
+  padding: 20px;
+  border: 1px solid skyblue;
+}
+.link {
+  margin: 10px;
+  padding: 10px 30px;
+  line-height: 15px;
+  text-decoration: none;
+  background-color: aqua;
+  border-radius: 4px;
+}
+
+.active {
+  background-color: yellow;
+}
+
+.card {
+  border-bottom: 1px solid black;
+  padding-bottom: 30px;
+}
