@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class A extends React.PureComponent {
+
+      state = { name: 'lilei', age: 20 }
+
+      add = () => this.setState({ age: this.state.age + 1 })
+      // add = () => this.setState({})
+
+      render() {
+        console.log('parent render')
+        const { name, age } = this.state
+        return (
+        <div style={{ border: '1px solid black', padding: '10px' }}>
+          <h1 onClick={this.add}>这是A组件, 姓名为{this.state.name}---年龄{this.state.age}</h1>
+          <B/>
+        </div>)
+      }
+    }
+
+    class B extends React.PureComponent {
+      render() {
+        console.log('child Render')
+        return (<div  style={{ border: '1px solid black', padding: '10px' }}>
+          <h1>这是B组件</h1>
+          <div>哈哈哈哈哈哈哈哈</div>
+        </div>)
+      }
+    }
+
+    ReactDOM.render(<A/>, document.getElementById('root'))
+ 
+  </script>
+</body>
+
+</html>
