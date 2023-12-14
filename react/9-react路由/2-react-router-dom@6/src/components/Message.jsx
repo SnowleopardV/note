@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
 // import { Link, Outlet  } from 'react-router-dom'
-import { useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate, Outlet, useInRouterContext, useNavigationType, useOutlet, useResolvedPath } from 'react-router-dom'
 
 export default function Message () {
+
+  const inRouter = useInRouterContext()
+  // console.log(8, inRouter)
+
+  const type = useNavigationType()
+  // console.log(11, type)
+
+  const outlet = useOutlet()
+  // console.log(14, outlet)
+
+  const pathObj = useResolvedPath('/detail?id=10000&age=80/#/ddjjj')
+  console.log(17, pathObj)
 
   const [messages, setMessage] = useState([{
     id: 0,
@@ -25,7 +37,7 @@ export default function Message () {
   const navigate = useNavigate()
 
   const gotoDetail = (message) => {
-    console.log(28, message)
+    // console.log(28, message)
     // 1. params形式传参
     // navigate(`detail/${message.id}/${message.title}/${message.content}`)
     // 2. search形式传参
