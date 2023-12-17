@@ -12,6 +12,7 @@
 
 <body>
   <div id="root"></div>
+  <div id="root2"></div>
   <script type="text/babel">
 
     class A extends React.Component {
@@ -61,7 +62,25 @@
       }
     }
 
+    function D () {
+      return (<div>
+        <h1>这个是D组件</h1>
+        <E rener={(text) => (<div>哈哈哈哈哈{text}</div>)}>
+        </E>
+      </div>)
+    }
+
+    function E(props) {
+      console.log(75, props)
+      const [text, setText] = React.useState('jack')
+      return (<div>
+        <h1 onClick={() => setText('lilei')}>这是E组件</h1>
+        { props.rener(text) }
+      </div>)
+    }
+
     ReactDOM.render(<A/>, document.getElementById('root'))
+    ReactDOM.render(<D/>, document.getElementById('root2'))
  
   </script>
 </body>
