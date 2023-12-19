@@ -1,5 +1,5 @@
 const showLog = () => console.log('hhahaha11')
-// 节流、防抖都属于高阶函数
+// 节流、防抖都属于高阶函数、还涉及到闭包
 // 一、节流
 function debounce(fn, delay) {
   let timer
