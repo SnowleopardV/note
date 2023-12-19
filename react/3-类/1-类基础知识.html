@@ -57,6 +57,7 @@
     class Teacher extends Person {
       constructor(name, age, grade) {
         // 必须调用super, 执行父类的constructor
+        // super的含义是委托父类创建并初始化对象后将创建的对象返回到当前环境，作为当前实例化的this
         super(name, age)
         this.grade = grade
         this.haha = () => console.log('哈哈哈')
