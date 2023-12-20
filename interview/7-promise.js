@@ -30,7 +30,6 @@ class MyPromise {
 
   then(onFullfilled, onRejected) {
     if (this.status === 'fullfilled') {
-      console.log(35)
       queueMicrotask(() => onFullfilled(this.result))
     } else if (this.status === 'rejected')
       queueMicrotask(() => onRejected(this.reason))
