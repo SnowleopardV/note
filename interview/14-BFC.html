@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /*
+    BFC的特点
+    1. 计算BFC的高度时，浮动元素也会参与计算
+    2. 内部的绝对定位元素的位置是相对于BFC的边界来计算的
+    3. 在BFC内部浮动的元素不会影响到BFC外部元素的布局。
+    */
+
+    /* 
+    创建BFC的几种情况
+    1. float 非none 
+    2. overflow 不为 visible
+    3. display 属性的值为 inline-block、table-cell、table-caption、flex、grid 或 flow-root。
+    4. position 为absolute或fixed
+    */
+    body {
+      background-color: aliceblue;
+    }
+
+    #root {
+      border: 1px solid black;
+      /* 父容使用overflow: hidden, 创建了一个块级格式化上下文 */
+      /* overflow: hidden; */
+      /* float: left; */
+      display: inline-block;
+    }
+
+    #item1 {
+      width: 100px;
+      height: 100px;
+      background-color: sandybrown;
+      float: left;
+    }
+  </style>
+
+  <div id="root">
+    <div id="item1"></div>
+  </div>
+</head>
+
+<body>
+  <script>
+
+  </script>
+</body>
+
+</html>
