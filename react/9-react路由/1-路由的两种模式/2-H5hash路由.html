@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    window.addEventListener('hashchange', (e, data) => {
+      console.log(14, e, data)
+    })
+
+    window.location.hash = '/home'
+    // http://127.0.0.1:5500/react/9-react%E8%B7%AF%E7%94%B1/1-%E8%B7%AF%E7%94%B1%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/2-H5hash%E8%B7%AF%E7%94%B1.html#/home
+
+    setTimeout(() => window.location.hash = '/detail', 3000)
+    // http://127.0.0.1:5500/react/9-react%E8%B7%AF%E7%94%B1/1-%E8%B7%AF%E7%94%B1%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/2-H5hash%E8%B7%AF%E7%94%B1.html#/detail
+  </script>
+</body>
+
+</html>
