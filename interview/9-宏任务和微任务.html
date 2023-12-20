@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root">现在的时间是: 0</div>
+</body>
+
+<script>
+  // 创建微任务的有, MutationObserver、Promise.then、 await、queueMicrotask
+  const root = document.getElementById('root')
+
+  setTimeout(() => {
+    root.innerHTML = `现在的时间是: ${new Date()}`
+    root.className = 'root'
+  }, 3000)
+
+  const mutaionObserver = new MutationObserver((mutationList, observer) => {
+    console.log(20, mutationList, observer)
+  })
+
+  // mutaionObserver.observe 创建的是一个微任务
+  mutaionObserver.observe(root, {
+    attributes: true,
+    childList: true,
+    subtree: true
+  })
+
+
+  console.log('script start')
+
+  async function async1() {
+    await async2()
+    console.log('async1 end')
+  }
+  async function async2() {
+    console.log('async2 end')
+  }
+  async1()
+
+  setTimeout(function () {
+    console.log('setTimeout')
+  }, 0)
+
+  new Promise(resolve => {
+      console.log('Promise')
+      resolve()
+    })
+    .then(function () {
+      console.log('promise1')
+    })
+    .then(function () {
+      console.log('promise2')
+    })
+
+  console.log('script end')
+
+  queueMicrotask(() => console.log('queueMicrotask'))
+</script>
+
+</html>
