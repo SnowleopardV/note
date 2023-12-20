@@ -31,16 +31,16 @@ class MyPromise {
   then(onFullfilled, onRejected) {
     if (this.status === 'fullfilled') {
       console.log(35)
-      setTimeout(() => onFullfilled(this.result))
+      queueMicrotask(() => onFullfilled(this.result))
     } else if (this.status === 'rejected')
-      setTimeout(() => onRejected(this.reason))
+      queueMicrotask(() => onRejected(this.reason))
     else if (this.status === 'pending') {
       this.fullfilledCallback.push(() =>
-        setTimeout(() => onFullfilled(this.result))
+        queueMicrotask(() => onFullfilled(this.result))
       )
-      this.rejectedCallback.push(() => {
-        setTimeout(() => onRejected(this.reason))
-      })
+      this.rejectedCallback.push(() =>
+        queueMicrotask(() => onRejected(this.reason))
+      )
     }
   }
 }
@@ -48,7 +48,7 @@ class MyPromise {
 const p = new MyPromise((resolve, reject) => {
   setTimeout(() => {
     resolve(100)
-  }, 9000)
+  }, 3000)
 })
 
 p.then(
