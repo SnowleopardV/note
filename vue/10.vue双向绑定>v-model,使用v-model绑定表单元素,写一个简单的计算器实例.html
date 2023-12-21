@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+
+		<input type="text" v-model='n1'>
+		<select v-model='opt'>
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		<input type="text" v-model='n2'>
+		<input type="button" value="=" @click='calc'>
+		<input type="text" v-model='result'>
+	</div>
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				n1: 0,
+				n2: 0,
+				result: 0,
+				opt: '+'
+			},
+			methods: {
+				calc() {
+					switch (this.opt) {
+						case '+':
+							this.result = parseFloat(this.n1) + parseFloat(this.n2);
+							break;
+						case '-':
+							this.result = parseFloat(this.n1) - parseFloat(this.n2);
+							break;
+						case '*':
+							this.result = parseFloat(this.n1) * parseFloat(this.n2);
+							break;
+						case '/':
+							this.result = parseFloat(this.n1) / parseFloat(this.n2);
+							break;
+					}
+					//投机取巧的方法,使用eval,正式的开发中尽量不要使用
+					//let resultCode = 'parseFloat(this.n1)' + this.opt + 'parseFloat(this.n2)';
+					//this.result = eval(resultCode)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

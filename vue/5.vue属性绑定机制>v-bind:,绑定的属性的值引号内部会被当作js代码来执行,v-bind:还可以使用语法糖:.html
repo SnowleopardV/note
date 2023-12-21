@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- v-bind: -->
+		<!-- 1.1 v-bind: 是vue提供用于绑定属性的指令 -->
+		<!-- 1.2 v-bind: 绑定的属性的值的引号内的内容会被将当做js代码去解析执行,可以使用合法的表达式 -->
+		<!-- 1.3 v-bind: 的语法糖 : -->
+
+		<input type="button" value="按钮" title="点击修改数据">
+		<!-- 1.1 -->
+		<input type="button" value="按钮" title="myTitle">
+		<input type="button" value="按钮" v-bind:title="myTitle">
+
+		<!-- 1.2 -->
+		<input type="button" value="按钮" v-bind:title="myTitle + '123'">
+
+		<!-- 1.3 -->
+		<input type="button" value="按钮" :title="myTitle + '123'">
+	</div>
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				myTitle: '整个是绑定之后的title'
+			}
+		})
+	</script>
+</body>
+
+</html>

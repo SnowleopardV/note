@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+	<!-- 总结 -->
+	<!-- 1.       vue实例的生命周期 -->
+	<!-- 1.1      vue实例的生命周期:vue实例在创建,运行,销毁等特定阶段发生的事件 -->
+	<!-- 1.2      vue实例的生命周期分类 -->
+	<!-- 1.2.1    vue实例创建过程的生命周期函数 -->
+	<!-- 1.2.1.1  beforeCreate -->
+	<!-- 1.2.1.2  created -->
+	<!-- 1.2.1.3  beforeMount -->
+	<!-- 1.2.1.4  mounted -->
+	<!-- 1.2.2    vue实例运行阶段的生命周期函数 -->
+	<!-- 1.2.2.1  beforeUpdate -->
+	<!-- 1.2.2.2  updated -->
+	<!-- 1.2.3    销毁阶段的生命周期函数 -->
+	<!-- 1.2.3.1  beforeDesctroy -->
+	<!-- 1.2.3.2  desctroyed -->
+
+	<!-- MVVM 中的 V -->
+	<div id="app">
+		<img :src="imgSrc" width="600">
+		<p id="msg">{{ message }}</p>
+		<input type="button" @click="message = 'not ok'" value="点击修改数据">
+		<input type="button" @click="destroy" value="点击销毁vue">
+	</div>
+	<script>
+		//MVVM 中的 VM
+		let vm = new Vue({
+			el: '#app',
+			//MVVM 中的 M
+			data: {
+				imgSrc: './images/lifecycle.png',
+				message: 'ok'
+			},
+			methods: {
+				show() {
+					console.log('ok')
+				},
+				destroy() {
+					this.$destroy();
+				}
+			},
+			beforeCreate() {
+				//console.log('beforecreate');
+				//console.log(this.message, this.show);
+			},
+			created() {
+				//console.log('created');
+				//console.log(this.message, this.show);
+				//this.show();
+			},
+			beforeMount() {
+				//console.log('beforeMount');
+				//console.log(document.getElementById('msg'), document.getElementById('msg').innerText);
+			},
+			beforeUpdate() {
+				console.log('beforeUpdate');
+				console.log(this.message, document.getElementById('msg').innerText);
+			},
+			updated() {
+				console.log('updated');
+				console.log(this.message, document.getElementById('msg').innerText);
+			},
+			beforeDestroy() {
+				console.log('beforeDestroy');
+				console.log(this.message, this.show, document.getElementById('msg').innerText);
+			},
+			destroyed() {
+				console.log('destroyed');
+				console.log(this.message, this.show, document.getElementById('msg').innerText);
+			}
+
+		})
+
+		//
+
+		// vue实例创建和运行以及销毁的过程
+		// 1.        new Vue({});                    开始创建一个vue实例
+		// 2.        init events and lifecycle       刚初始化了一个空的vue实例对象,这个对象身上只有生命周期函数和默认的事件,其他的东西都未创建
+		// 3.        2完成后,beforeCreate() 生命周期函数立即被触发
+		// 4.        init data & methods
+		// 5.        4完成后,created() 生命周期函数立即被触发,表示data和methods初始化完成
+		// 6.        vue开始编译模版,判断传入给Vue()的配置对象里面是否有el属性
+		// 6.1       如果有el属性
+		// 6.1.1     判断传入的vue()配置对象里面是有template属性
+		// 6.1.1.1   没有template属性
+		// 6.1.1.2   compile el‘s template   把模版中的vue指令进行执行,
+		//           最终在内存中生成一个编译好的模版字符串,渲染为内存中的DOM,注意此时并没有插入到网页的DOM中去
+		// 6.1.1.3   6.1.1.2完成后,beforeMount() 生命周期函数立即被触发,表示模版在内存中已经编译完成，渲染成了内存中的DOM,但是尚未挂载到页面中去
+		//           即页面中的元素还没有被真正替换过来
+		// 6.1.1.4   create vue.$el and replace the 'el' with it 将内存中编译好的模板真实的替换到页面中去
+		// 6.1.1.5   6.1.1.4完成后,mouted() 生命周期函数立即被调用, 
+		//           表示整个vue实例已经初始化完成,页面的元素已经被编译好的模版替换掉了.组件已经脱离创建阶段,进入到运行阶段
+		// 6.1.1.6.1 data changes
+		// 6.1.1.6.2 6.1.1.6.1 发生 beforeUpdate 生命周期函数被立即触发,注意: 此时数据发生了改变,页面没有发生改变
+		// 6.1.1.6.3 virtual DOM re-render  这一步执行的是 先根据 data中最新的DOM,在内存中生成,重新渲染出一份最新的虚拟DOM树,
+		//           内存中的DOM树被更新之后,会重新渲染到真是的页面中去,这时候就成了M(数据层) -> V(视图层)的更新
+		// 6.1.1.6.3 6.1.1.6.4 完成,updated 生命周期函数立即被触发,此时页面发生改变
+		// 6.1.1.7.1 vm.$destroy is called
+		// 6.1.1.7.2 beforeDestroy 生命周期函数被立即调用,此时实例上的data,method,以及过滤器,指令都处于可用状态.
+		// 6.1.1.7.3 tearDown watchers event listners child component
+		// 6.1.1.7.4 6.1.1.7.3 完成, destroyed生命周期函数会被立即调用,此时vue实例已经被完全销毁,
+		//           实例上的data,method,以及过滤器,指令都处于不可用状态.
+	</script>
+</body>
+
+</html>

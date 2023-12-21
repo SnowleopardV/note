@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script src="lib/vue-router.js"></script>
+</head>
+
+<body>
+	<!-- 总结 -->
+	<!-- 1.     computed计算属性 -->
+	<!-- 1.1    在computed中可以定义一些属性,这个属性叫做计算属性,本质上它们是一个方法,我们在使用的时候把他当属性来使用,而不是当方法(加上())来调用 -->
+	<!-- 注意:     -->
+	<!-- 1.1.1  使用的时候把计算属性当作属性来使用,而不是当作方法(加上())来调用   -->
+	<!-- 1.1.2  在计算属性中,只要函数依赖的数据发上变化,计算属性就会自动触发重新求值   -->
+	<!-- 1.1.3  计算属性的求值结果会被缓存起来,同一个计算属性被引用多次则只计算一次 -->
+
+	<!-- 2.     methods/watch/computed的对比 -->
+	<!-- 2.1    不同: -->
+	<!-- 2.1.1  methods主要用来写业务逻辑,当作方法来使用-->
+	<!-- 2.1.2  computed主要用来计算一些响应式的简单数据,当作属性来使用 -->
+	<!-- 2.1.3  watch可以看作是computed和methods的结合体,主要是监听一些非DOM元素数值的改变时使用 -->
+
+	<!-- 2.2    相同: -->
+	<!-- 2.2.1  都是方法 -->
+
+	<!-- MVVM 中的 V -->
+	<div id="app">
+		<div>
+			<input type="text" v-model="firstName">+
+			<input type="text" v-model="middleName">+
+			<input type="text" v-model="lastName">=
+			<!-- 1.1 -->
+			<input type="text" v-model="fullName"><br>
+			<!-- 1.1.3 -->
+			<p>{{ fullName }}</p>
+			<p>{{ fullName }}</p>
+			<p>{{ fullName }}</p>
+			<p>{{ fullName }}</p>
+		</div>
+	</div>
+
+	<script>
+		//MVVM 中的 VM
+		let vm = new Vue({
+			el: '#app',
+			//MVVM 中的 M
+			data: {
+				firstName: '',
+				middleName: '',
+				lastName: ''
+			},
+			methods: {
+
+			},
+			watch: {},
+			computed: {
+				// 1.1
+				fullName() {
+					console.log('ok');
+					return this.firstName + '-' + this.middleName + '-' + this.lastName;
+				}
+			}
+
+		})
+	</script>
+</body>
+
+</html

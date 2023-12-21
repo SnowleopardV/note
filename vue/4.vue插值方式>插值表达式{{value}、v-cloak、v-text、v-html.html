@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- 1.   vue指令都是以v-开头 -->
+		<!-- 2.   v-cloak -->
+		<!-- 2.1  v-cloak解决插值表达式的闪烁问题 -->
+		<!-- 3.   v-text -->
+		<!-- 3.1  v-text和v-cloak与插值表达式的区别 a. v-text没有闪烁问题  b.v-text会覆盖原来元素的内容-->
+		<!-- 4.   v-html -->
+		<!-- 4.1  v-html将文本解析成html代码 -->
+
+		<!-- 2.1 -->
+		<p v-cloak>+++++++{{ name }}--------</p>
+
+		<!-- 3.1 -->
+		<p v-text='name'>+++++++--------</p>
+
+		<!-- 4.1 -->
+		<div> {{ htmlString }} </div>
+		<div v-html="htmlString">123123123</div>
+		<div v-html="htmlString"></div>
+	</div>
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				name: '张文娟',
+				htmlString: '<h1>这里是一个html文本</h1>'
+			}
+		})
+	</script>
+</body>
+
+</html>

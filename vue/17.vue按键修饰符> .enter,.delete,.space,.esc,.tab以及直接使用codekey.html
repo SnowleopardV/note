@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- 1.   按键修饰符 -->
+		<!-- 1.1 vue提供的按钮修饰符 .enter .delete .space .esc .tab .left .right .up .down-->
+		<!-- 1.2 其他的按键可以通过keyCode来使用按键修饰符 https://www.cnblogs.com/shyy/archive/2012/04/09/2453029.html -->
+		<!-- 1.3 按键修饰符可以在Vue.config.keyCodes中预定义 -->
+
+		<div class="panel panel-primary">
+			<div class="panel-body form-inline">
+				<label>
+					enter:
+					<!-- 1.1 -->
+					<input type="text" class="form-control" @keyup.enter="enterEvent">
+				</label>
+				<label>
+					keyCode:
+					<!-- 1.2 -->
+					<input type="text" class="form-control" @keyup.81="qEvent">
+				</label>
+				<label>
+					预定义的keyCode:
+					<!-- 1.3 -->
+					<input type="text" class="form-control" @keyup.q="qEvent">
+				</label>
+			</div>
+		</div>
+	</div>
+	<script>
+		// 1.3
+		Vue.config.keyCodes.q = 81;
+
+		let vm = new Vue({
+			el: '#app',
+			data: {},
+			methods: {
+				qEvent() {
+					alert('q')
+				},
+				enterEvent() {
+					alert('enter')
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

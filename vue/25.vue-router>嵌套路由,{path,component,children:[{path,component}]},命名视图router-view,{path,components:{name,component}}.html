@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script src="lib/vue-router.js"></script>
+	<style>
+		.header {
+			height: 100px;
+			background: yellow;
+		}
+
+		.container {
+			display: flex
+		}
+
+		.left {
+			height: 400px;
+			background-color: red;
+			flex: 2;
+		}
+
+		.main {
+			height: 400px;
+			background-color: blue;
+			flex: 8;
+		}
+
+		.footer {
+			height: 80px;
+			background-color: green
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 总结 -->
+	<!-- 1.    路由的嵌套 -->
+	<!-- 1.1   先声明母组件模版 -->
+	<!-- 1.2   在母组件模版中添加router-link和router-view -->
+	<!-- 1.3   在router中定义路由规则时,添加一个children属性,children中的成员也是一个路由规则{path, component} -->
+	<!--       注意: 被嵌套的组件的路由规则的path没有 /, /表示根路径 -->
+
+
+	<!-- 2.    命名视图 -->
+	<!-- 2.1   页面可以存在多个router-view元素,为了将匹配到的组件分别显示到对应的router-view上,可以给router-view指定name属性 -->
+	<!-- 2.2   先定义需要的多个组件 -->
+	<!-- 2.3   在路由匹配规则中使用components属性,指定命名的router-view和component的对应关系 -->
+
+	<!-- MVVM 中的 V -->
+	<div id="app">
+		<div v-if="flag">
+			<router-link to="/account">进入账号页面</router-link>
+			<router-link to="/">进入首页面</router-link>
+			<!-- 2.1 -->
+			<router-view name="nest"></router-view>
+		</div>
+		<router-view name="page"></router-view>
+	</div>
+
+	<!-- 1.1 -->
+	<template id="account">
+		<div>
+			<p>这是Account页面</p>
+			<!-- 1.2 -->
+			<router-link to="/account/login">登录页面</router-link>
+			<router-link to="/account/register">注册页面</router-link>
+			<router-view>
+
+			</router-view>
+		</div>
+	</template>
+
+
+	<template id="login">
+		<div id="login">这里是登录页面</div>
+	</template>
+	<template id="register">
+		<div id="register">这里是注册页面</div>
+	</template>
+
+	<!-- 2.2 -->
+	<template id="page">
+		<div class="page">
+			<router-view name="header"></router-view>
+			<div class="container">
+				<router-view name="left"></router-view>
+				<router-view name="main"></router-view>
+			</div>
+			<router-view name="footer"></router-view>
+		</div>
+	</template>
+
+	<template id="header">
+		<div class="header">这是Header头部</div>
+	</template>
+
+	<template id="left">
+		<div class="left">这是left侧边栏菜单</div>
+	</template>
+
+	<template id="main">
+		<div class="main">这是main主要内容</div>
+	</template>
+
+	<template id="footer">
+		<div class="footer">这是footer页脚</div>
+	</template>
+
+	<script>
+		let account = {
+			template: '#account'
+		};
+
+		let login = {
+			template: '#login'
+		};
+
+		let register = {
+			template: '#register'
+		};
+
+		//2.2
+		let page = {
+			template: '#page'
+		};
+
+		let header = {
+			template: '#header'
+		};
+
+		let left = {
+			template: '#left'
+		};
+		let main = {
+			template: '#main'
+		};
+
+		let footer = {
+			template: '#footer'
+		};
+
+
+		let router = new VueRouter({
+			routes: [{
+					path: '/account',
+					//注意: 如果使用了命名视图的时候,这里的components不可以省略
+					//2.1 
+					components: {
+						nest: account
+					},
+					redirect: '/account/login',
+					// 1.3
+					children: [{
+							path: 'login',
+							component: login
+						},
+						{
+							path: 'register',
+							component: register
+						},
+					]
+				},
+				{
+					path: '/page',
+					components: {
+						page: page
+					},
+					children: [{
+						//2.3
+						path: '',
+						components: {
+							header: header,
+							left: left,
+							main: main,
+							footer: footer
+						}
+					}]
+				}
+			]
+		})
+
+		//MVVM 中的 VM
+		let vm = new Vue({
+			el: '#app',
+			//MVVM 中的 M
+			data: {
+				flag: false
+			},
+			methods: {
+
+			},
+			router
+
+		})
+	</script>
+</body>
+
+</html

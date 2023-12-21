@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- 1.    自定义指令 -->
+		<!-- 1.1   vue的指令都是以v-开头 -->
+		<!-- 1.2   使用Vue.directive(directorName, {bind, inserted, update, componentUpdate, unbind})来定义全局的指令,
+	       bind, inserted, update, componentUpdate, unbind是和指令相关的钩子函数,他们的作用是在特定的阶段执行相关的操作-->
+		<!-- 1.3   元素的渲染步骤 -->
+		<!-- 1.3.1 浏览器解析这个元素 -->
+		<!-- 1.3.2 解析好的元素放到内存中的DOM树中去 -->
+		<!-- 1.3.3 元素插入到网页的DOM中去 -->
+		<!-- 1.4   自定义的指令在绑定到元素上时,就会立即执行这个bind函数,只执行一次. -->
+		<!-- 1.4.1 bind的第一个参数el,表示绑定这个指定的原生的JS DOM对象 -->
+		<!-- 1.4.2 bind的第二个参数binding(可选),binding是一个对象,{name, value, expression,arg},
+	       其中expression,为指定等号后面引号内的表达式,value为表达式的值,arg为指定:后面的值 -->
+		<!-- 1.4.3 和样式相关的操作放在bind中执行 -->
+		<!-- 1.5   自定义的指令在绑定的元素插入到网页时的DOM时,就会立即执行inserted钩子函数,只执行一次 -->
+		<!-- 1.5.1 同1.4.1 -->
+		<!-- 1.5.2 同1.4.2 -->
+		<!-- 1.5.3 和js行为相关的操作可以放在inserted中执行 -->
+		<!-- 1.6   update 当vnode更新时,就会执行update钩子函数 -->
+
+		<!-- 2.    自定义私有指令 -->
+		<!-- 2.1   使用directives: {bind, inserted, update, componentUpdate, unbind} -->
+
+		<!-- 3.   自定义私有指令的简写(针对只在bind和update钩子上做重复的动作,不关注其他的钩子函数) -->
+		<!-- 3.1  简写时采用函数的写法,第一参数是绑定的原生DOM对象,第二个是binding -->
+
+		<!-- 1.1 -->
+		<input type="text" v-focus v-color:blue="'red'">
+		<input type="text" v-backcolor="'pink'" v-margileft='200' v-border="50">
+	</div>
+	<script>
+		Vue.directive('focus', {
+			// 1.2 //1.3
+			bind(el, binding, vnode) {
+				//console.log(el, binding, vnode)
+			},
+			//1.2 //1.4
+			inserted(el, binding, vnode) {
+				//console.log(el, binding, vnode);
+				el.focus();
+			},
+			update(el, binding, vnode, oldVnode) {
+				//console.log(el, binding, vnode, oldVnode)
+			},
+			unbind(el, binding, vnode) {
+				//console.log(el, binding, vnode)
+			}
+		})
+
+		Vue.directive('color', {
+			// 1.2 //1.4 //1.4.1 //1.4.2
+			bind(el, binding, vnode) {
+				console.log(el, binding, vnode);
+				el.style.color = binding.value;
+				el.style.border = `1px solid ${binding.arg}`
+			}
+		})
+
+		let vm = new Vue({
+			el: '#app',
+			data: {},
+			methods: {},
+
+			//2.1
+			directives: {
+				backcolor: {
+					bind(el, binding, vnode) {
+						el.style.backgroundColor = binding.value
+					}
+				},
+				margileft: {
+					bind(el, binding, vnode) {
+						el.style.marginLeft = binding.value + 'px'
+					}
+				},
+				// 3.1
+				border(el, binding) {
+					el.style.border = binding.value + 'px solid #000000'
+				}
+
+			}
+		})
+	</script>
+</body>
+
+</html>

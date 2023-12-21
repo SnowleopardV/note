@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- 1.    过滤器 vue允许自定义过滤器,用作一些常见文本的格式化,用来是做数据输出前的最后一次处理,过滤器只是中间做了一层处理,不修改原数据-->
+		<!-- 1.1.  过滤器只能用在两个地方: 1.mustachc插值表达式 2.v-bind表达式 -->
+		<!-- 1.1.1 过滤器用在mustachc插值表达式 -->
+		<!-- 1.1.2 过滤器用在v-bind表达式 -->
+		<!-- 1.2.  过滤器的格式 -->
+		<!-- 1.2.1 差值表达式过滤器的格式{{ name | nameOperator }} (name是要传给nameOperator的值, | 是管道符,nameOperator是要执行的操作) -->
+		<!-- 1.2.2 v-bind:差值表达式过滤器的格式 -->
+		<!-- 1.3.  过滤器的定义 -->
+		<!-- 1.3.1 过滤器的定义Vue.filter(nameOperator, function(data){ return })  (functiond的第一个参数被规定死了) -->
+		<!-- 1.3.2 过滤器的定义需要在vue实例之前,否则会报错 -->
+		<!-- 1.3.3 过滤器还可以传额外的参数 -->
+		<!-- 1.4   过滤器可以串联使用,按照从前到后的顺序链式执行 -->
+		<!-- 1.5   全局过滤器和私有过滤器(局部过滤器) -->
+		<!-- 1.5.1 全局过滤器,所有的VM实例都共享 -->
+		<!-- 1.5.2 局部过滤器(私有过滤器) -->
+		<!-- 1.5.3 如果同时存在全局过滤器和局部过滤器,局部过滤器的优先级更高 -->
+		<!-- 1.6   补充:String.prototype.padStarts(maxLength, fillValue),String.prototype.padEnds(maxLength, fillValue) -->
+
+		<!-- 1.2.1 -->
+		<!-- 1.3.1 -->
+		<!-- 1.3.2 -->
+		<p>{{ msg }}</p>
+		<p>{{ msg | msgFormat }}</p>
+
+		<!-- 1.3.3 -->
+		<p>{{ msg | msgFormat1('arg1','arg2') }}</p>
+
+		<!-- 1.4 -->
+		<p>{{ msg | msgFormat | addPlus}}</p>
+
+		<!-- 1.5.3 -->
+		<p>{{ msg | addEqual }}</p>
+
+		<!-- 1.3.3 -->
+		<p>{{ time | timeFormat('yyyy-mm-dd  hh:mm:ss') }}</p>
+	</div>
+	<script>
+		// 1.3.1  //1.3.2 //1.5.1
+		Vue.filter('msgFormat', function (val) {
+			return val.replace(/单纯/g, '邪恶');
+		})
+
+		Vue.filter('msgFormat1', function (val, arg1, arg2) {
+			return val.replace(/单纯/g, '猥琐') + arg1 + arg2
+		})
+
+		Vue.filter('addPlus', function (val) {
+			return val + '++++++++++++++++++++'
+		})
+
+		Vue.filter('addEqual', function (val) {
+			return val.replace(/曾经的你/, '---------------------')
+		})
+
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				msg: '曾经的你,是一个单纯的少年,单纯的你问,谁是这个世界上最单纯的人',
+				time: new Date()
+			},
+			methods: {
+
+			},
+			// 1.5.2  // 1.5.3
+			filters: {
+				addEqual(val) {
+					return val.replace(/曾经的你/, '哈哈哈哈哈哈哈哈哈哈哈哈')
+				},
+				timeFormat(val, pattern) {
+					let y = val.getFullYear();
+					console.log(typeof (y));
+					// 1.6
+					let m = val.getMonth().toString().padStart(2, 0);
+					let d = val.getDate().toString().padStart(2, 0);
+					let hour = val.getHours().toString().padStart(2, 0);
+					let min = val.getMinutes().toString().padStart(2, 0);
+					let sec = val.getSeconds().toString().padStart(2, 0);
+					if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+						return `${y}-${m}-${d}`
+					} else if (pattern.toLowerCase() === 'yyyy-mm-dd  hh:mm:ss')
+						return `${y}-${m}-${d}  ${hour}:${min}:${sec}`
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

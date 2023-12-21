@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 总结 -->
+		<!-- 1.  vm实例this -->
+		<!-- 1.1 使用new Vue实例化的vm时,传入的配置对象中的data里面的所有变量和methods中的所有方法都会挂载在这个vm实例上 -->
+		<!-- 1.2 在vm实例中，this指向vm实例,如果需要访问data中的变量或者methods中的方法，必须通过this.变量名或者this.方法名才能正确获取 -->
+
+		<p v-cloak>+++++{{ value }}------</p>
+		<p v-text='value'></p>
+		<input type="button" value="按钮" @click="changeValue">
+		<input type="button" value="按钮" @click="changeValue1">
+		<br>
+		<div v-text="message"></div>
+		<input type="button" value="动起来" @click="start">
+		<input type="button" value="停止" @click="end">
+	</div>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				value: '点击按钮之前的数据',
+				message: '动起来!!!大家一起动起来~~~~~',
+				runInterval: null
+			},
+			methods: {
+				changeValue() {
+					this.value = '点击按钮之后的数据'
+				},
+				changeValue1() {
+					try {
+						value = '点击按钮之后的数据'
+					} catch (e) {
+						console.log(e)
+					}
+				},
+				start() {
+					//避免重复点击
+					if (this.runInterval != null) return;
+					this.runInterval = setInterval(
+						() => {
+							//箭头函数没有自己的this,这里的this指向外层的this,即start内部的this(指向vm)
+							//1.2
+							let start = this.message.substring(0, 1);
+							let end = this.message.substring(1);
+							//注意substr(startIndex,length(可省略,省略时直接到最后))和substring(startIndex,endIndex(可省略,省略时时到最后))的区别,前者是返回指定长度的字符串,后者是返回指定位置的字符串;
+							this.message = end + start;
+						}, 100)
+				},
+				end() {
+					this.message = '点击按钮之前的数据';
+					clearInterval(this.runInterval);
+					this.runInterval = null;
+					//每当清除定时器之后重新给this.runInterval置为null,避免重复点击
+				}
+
+			}
+		})
+
+		// 1.1
+		console.log(window.vm)
+	</script>
+</body>
+
+</html>
