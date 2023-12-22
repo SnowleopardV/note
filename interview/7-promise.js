@@ -44,16 +44,16 @@ class MyPromise {
   }
 }
 
-const p = new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(100)
-  }, 3000)
-})
+// const p = new MyPromise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(100)
+//   }, 3000)
+// })
 
-p.then(
-  (res) => console.log(43, 'res', res),
-  (reson) => console.log(44, 'reson', reson)
-)
+// p.then(
+//   (res) => console.log(43, 'res', res),
+//   (reson) => console.log(44, 'reson', reson)
+// )
 
 // const p2 = new MyPromise((resolve, reject) => {
 //   resolve(70)
@@ -63,3 +63,19 @@ p.then(
 //   (result) => console.log(67, result),
 //   (reason) => console.log(69, reason)
 // )
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => resolve('99999'), 0)
+})
+
+p3.then((result) => console.log(71, result))
+  .catch((reason) => console.log(72, reason))
+  .then((result) => console.log(73, result))
+
+const p4 = new Promise((resolve, reject) => {
+  setTimeout(() => reject('8888'), 0)
+})
+
+p4.then((result) => console.log(79, result))
+  .catch((reason) => console.log(80, reason))
+  .then((result) => console.log(81, result))
