@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext } from 'react'
 
-const myContext = createContext()
+const myContext = createContext({ name: '' })
 console.log(4, myContext)
 const { Provider } = myContext
 
