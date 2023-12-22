@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import Count from './components/Count'
 import Welcome from './components/Welcome'
 import ContextDemo from './components/ContextDemo'
-
 export default class App extends Component {
   state = { showCount: true }
 
