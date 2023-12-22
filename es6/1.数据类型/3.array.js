@@ -71,12 +71,20 @@ console.log('五. 数组元素增加, 删除操作(改变原数组)')
 // 语法: array.push(item1, item2, ..., itemX), 返回数组的新长度
 console.log('-----------------push------------------')
 console.log(c.push(5, 6), c)
+const arr = [1, 2, 3, 4]
+const arr2 = [5, 6, 7, 8]
+arr.push(...arr2)
+console.log(arr, arr.length)
 
 // unshift
 // 语法: array.unshift(item1, item2, ..., itemX)  返回数组的新长度
 console.log('-----------------unshift------------------')
 let d = [4, 5, 6]
 console.log(d.unshift(1, 2, 3), d)
+const arr3 = [5, 6, 7, 8]
+const arr4 = [1, 2, 3, 4]
+arr3.unshift(...arr4)
+console.log(arr3, arr3.length)
 
 // pop
 // 语法: array.pop(), 移除数组的最后一个元素，并返回该元素
@@ -179,3 +187,20 @@ console.log('十. 数组转为字符串')
 console.log('-----------------join------------------')
 let o = [1, 2, 3, 4]
 console.log(o.join('*'))
+/******************************  总结: 不改变原数组的方法 *****************************/
+// 1. filter
+// 2. slice
+// 3. concat
+// 4. map
+// 5. forEach
+// 6. reduce
+
+/******************************  总结: 改变原数组的方法 *****************************/
+// 1. push
+// 2. pop
+// 3. unshift
+// 4. shift
+// 5. fill
+// 6. splice
+// 7. sort
+// 8. reverse
