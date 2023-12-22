@@ -5,14 +5,11 @@ console.log('一. 判断对象是否是数组')
 // 语法: Array.isArray(obj)
 console.log('---------------Array.isArray----------------')
 let a = 'abcdefg'
-let b = {name: 'aa'}
+let b = { name: 'aa' }
 let c = [1, 2, 3, 4]
 console.log(Array.isArray(a))
 console.log(Array.isArray(b))
 console.log(Array.isArray(c))
-
-
-
 
 /******************二. 判断数组中是否包含某个元素************************************/
 console.log('二. 判断数组中是否包含某个元素')
@@ -31,21 +28,17 @@ console.log(['a', 'b', 'c', 'd'].lastIndexOf('b'))
 // findIndex
 // 语法: array.findIndex(function(currentValue, index, arr), thisValue)
 console.log('---------------findIndex----------------')
-console.log(c.findIndex(item => item > 2))
+console.log(c.findIndex((item) => item > 2))
 
 // find
 // 语法: array.find(function(currentValue, index, arr), thisValue)
 console.log('-----------------find------------------')
-console.log(c.find(item => item > 2))
+console.log(c.find((item) => item > 2))
 
 // includes
 // 语法: array.includes(element, start)
 console.log('-----------------includes------------------')
 console.log(c.includes(2))
-
-
-
-
 
 /*****************三. 判断数组中的元素是否满足条件*********************/
 console.log('三. 判断数组中的元素是否满足条件')
@@ -53,26 +46,24 @@ console.log('三. 判断数组中的元素是否满足条件')
 // 语法: array.some(function(currentValue, index, arr), thisValue)
 console.log('-----------------some------------------')
 let k = [5, 6, 7, 8]
-console.log(k.some(item => item > 6))
-console.log(k.some(item => item > 60))
+console.log(k.some((item) => item > 6))
+console.log(k.some((item) => item > 60))
 
 // every
 // 语法: array.every(function(currentValue, index, arr), thisValue)
 console.log('-----------------every------------------')
-console.log(k.every(item => item > 4))
-console.log(k.every(item => item > 6))
-
-
+console.log(k.every((item) => item > 4))
+console.log(k.every((item) => item > 6))
 
 /********四. 数组过滤 (不改变原数组, 产生一个新数组)***********/
 console.log('四. 数组过滤 (不改变原数组, 产生一个新数组)')
 // filter
 // 语法: array.filter(function(currentValue, index, arr), thisValue)
 console.log('-----------------filter------------------')
-console.log(c.filter(item => item > 2), c)
-
-
-
+console.log(
+  c.filter((item) => item > 2),
+  c
+)
 
 /******************五. 数组元素增加, 删除, 插入操作(改变原数组)*********************/
 console.log('五. 数组元素增加, 删除操作(改变原数组)')
@@ -103,10 +94,6 @@ console.log('-----------------splice------------------')
 let e = [1, 2, 3, 4, 5]
 console.log(e.splice(2, 3, 'a', 'b', 'c'), e)
 
-
-
-
-
 // /******************六. 数组元素的填充, 产生一个新数组, 并改变原数组*********************/
 console.log('六. 数组元素的填充, 产生一个新数组, 并改变原数组')
 // fill
@@ -114,10 +101,6 @@ console.log('六. 数组元素的填充, 产生一个新数组, 并改变原数�
 console.log('-----------------fill------------------')
 let j = [1, 2, 3, 4, 5]
 console.log(j.fill('a', 2, 4), j)
-
-
-
-
 
 /******************七. 数组拼接, 截断(不改变原数组, 产生一个新数组)*********************/
 console.log('七. 数组拼接, 截断(不改变原数组)')
@@ -134,26 +117,22 @@ console.log('-----------------slice------------------')
 let g = [1, 2, 3, 4, 5]
 console.log(g.slice(2, 4), g)
 
-
-
-
 /******************八. 数组的排序, 顺序反转, 产生一个新数组, 并改变原数组*********************/
 console.log('八. 数组的排序, 顺序反转, 产生一个新数组, 并改变原数组')
 // sort
 // 语法: array.sort(compareFunction), 返回一个新数组
 console.log('-----------------sort------------------')
 let h = [2, 1, 4, 5, 3]
-console.log(h.sort((a, b) => a - b), h)
+console.log(
+  h.sort((a, b) => a - b),
+  h
+)
 
 // reverse
 // 语法: array.reverse(), 返回一个新数组
 console.log('-----------------reverse------------------')
 let i = [1, 2, 3, 4]
 console.log(i.reverse(), i)
-
-
-
-
 
 /*************************九. 数组的遍历, 不改变原数组****************************/
 console.log('九. 数组的遍历, 不改变原数组')
@@ -173,12 +152,15 @@ console.log(m.entries(), m)
 // 语法: array.map(function(currentValue, index, arr), thisValue)
 console.log('-----------------map------------------')
 let l = [1, 2, 3, 4]
-console.log(l.map(item => item ** 2), l)
+console.log(
+  l.map((item) => item ** 2),
+  l
+)
 
 // forEach
 // 语法: array.every(function(currentValue, index, arr), thisValue)
 console.log('-----------------forEach------------------')
-l.forEach(item => console.log(item ** 2))
+l.forEach((item) => console.log(item ** 2))
 
 // reduce
 // 语法: array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
@@ -189,9 +171,6 @@ console.log(l.reduce((total, item) => total + item, 100))
 // 语法: array.reduceRight(function(total, currentValue, currentIndex, arr), initialValue)
 console.log('-----------------reduceRight------------------')
 console.log(l.reduceRight((total, item) => total + item, 100))
-
-
-
 
 /*************************十. 数组转为字符串****************************/
 console.log('十. 数组转为字符串')
