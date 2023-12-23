@@ -18,6 +18,8 @@ console.log('二. 判断数组中是否包含某个元素')
 console.log('---------------indexOf----------------')
 console.log(c.indexOf(3))
 console.log(['a', 'b', 'c', 'd'].indexOf('b'))
+console.log(['a', 'b', 'c', 'd'].indexOf('b', 1))
+console.log(['a', 'b', 'c', 'd'].indexOf('b', 2))
 
 // lastIndexOf
 // 语法: array.lastIndexOf(item, start)

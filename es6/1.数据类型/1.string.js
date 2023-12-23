@@ -1,7 +1,7 @@
 /******************一. 判断字符串是否包含另一个字符串****************************************/
 console.log('一. 判断字符串是否包含另一个字符串')
-// 1. indexof()
-// 返回索引值, 没有为-1, 可以传第二个可选参数, 表示检索的起始位置
+// 1. indexof(s, start)
+// 返回索引值, 没有为-1, 可以传第二个可选参数, 表示检索的起始位置(含)
 console.log('---------indexOf---------')
 let a = 'abcdeabfg'
 console.log(a.indexOf('ab'))
@@ -94,7 +94,7 @@ let g = 'abc'
 console.log(g.concat('1234'), g)
 console.log(g.concat('5678', 'abcd', 'efgh'), g)
 
-// 2. split 
+// 2. split
 console.log('---------split--------')
 let h = '23423,2134231,1234132'
 console.log(h.split(','), h)
