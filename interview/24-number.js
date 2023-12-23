@@ -48,16 +48,65 @@
 // )
 
 // 9. Math.trunc(x) 去除一个数值除其小数点之后的部分, 返回一个数的整数
-const a = -2.9999
-const b = -4.999
-const c = 5.00001
-const d = 1
-const e = 0
+// const a = -2.9999
+// const b = -4.999
+// const c = 5.00001
+// const d = 1
+// const e = 0
+// console.log(
+//   55,
+//   Math.trunc(a),
+//   Math.trunc(b),
+//   Math.trunc(c),
+//   Math.trunc(d),
+//   Math.trunc(e)
+// )
+
+// 二、Number
+// 1. Number.isInteger(x) 判断数值是否为整数
+// const a = -2.9999
+// const b = -4
+// const c = 5.00001
+// const d = 1
+// const e = 0
+// console.log(
+//   72,
+//   Number.isInteger(a),
+//   Number.isInteger(b),
+//   Number.isInteger(c),
+//   Number.isInteger(d),
+//   Number.isInteger(e)
+// )
+
+// 2. Number.isNaN(x) 同ES5的全局方法isNaN, 判断数值是否为NaN
+// const a = 'a' * 3
+// const b = 'b'
+// const c = 4
+// const d = -2.3444
+// console.log(
+//   86,
+//   typeof a,
+//   Number.isNaN(a),
+//   Number.isNaN(b),
+//   Number.isNaN(c),
+//   Number.isNaN(d)
+// )
+
+// 3. Number.parseInt(x) 同ES5的parseInt(x), 生成一个整数
+// const a = '123bsdncns67676'
+// const b = '123.999999999999'
+// const c = 'a123.9999'
+// console.log(Number.parseInt(a), Number.parseInt(b), Number.parseInt(c))
+
+// 4. Number.parseFloat(x) 同ES5的parseFloat(x), 生成一个浮点数, 如果x是一个整数的话, 则生成一个整数
+const a = '123bsdncns67676'
+const b = '123.999999999999'
+const c = 'a123.9999'
+const d = 55
 console.log(
-  55,
-  Math.trunc(a),
-  Math.trunc(b),
-  Math.trunc(c),
-  Math.trunc(d),
-  Math.trunc(e)
+  106,
+  Number.parseFloat(a),
+  Number.parseFloat(b),
+  Number.parseFloat(c),
+  Number.parseFloat(d)
 )
