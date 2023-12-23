@@ -107,10 +107,10 @@
 // console.log(107, str.substring(3, 5), str)
 
 // 七、返回指定下标的字符/字符编码
-// 1. charAt(index)
-// const str = '1234567890'
-// console.log(112, str.charAt(3), str)
-// console.log(113, str.charAt(4), str)
+// 1. charAt(index) 同[index]
+const str = '1234567890'
+console.log(112, str.charAt(3), str[3], str)
+console.log(113, str.charAt(4), str[4], str)
 
 // 2. charCodeAt(index)
 // const str = '1234567890'
