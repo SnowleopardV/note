@@ -113,7 +113,7 @@ let j = [1, 2, 3, 4, 5]
 console.log(j.fill('a', 2, 4), j)
 
 /******************七. 数组拼接, 截断(不改变原数组, 产生一个新数组)*********************/
-console.log('七. 数组拼接, 截断(不改变原数组)')
+console.log('七. 数组拼接, 截断(不改变原数组)')  
 // concat
 // 语法: array1.concat(array2, array3, ..., arrayX), 返回一个新数组
 // 语法: array1.concat(array2, array3, ..., arrayX), 返回一个新数组
