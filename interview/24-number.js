@@ -99,14 +99,20 @@
 // console.log(Number.parseInt(a), Number.parseInt(b), Number.parseInt(c))
 
 // 4. Number.parseFloat(x) 同ES5的parseFloat(x), 生成一个浮点数, 如果x是一个整数的话, 则生成一个整数
-const a = '123bsdncns67676'
-const b = '123.999999999999'
-const c = 'a123.9999'
-const d = 55
-console.log(
-  106,
-  Number.parseFloat(a),
-  Number.parseFloat(b),
-  Number.parseFloat(c),
-  Number.parseFloat(d)
-)
+// const a = '123bsdncns67676'
+// const b = '123.999999999999'
+// const c = 'a123.9999'
+// const d = 55
+// console.log(
+//   106,
+//   Number.parseFloat(a),
+//   Number.parseFloat(b),
+//   Number.parseFloat(c),
+//   Number.parseFloat(d)
+// )
+
+// 三、数值计算
+// 1. % 取余
+const a = -11
+const b = 3
+console.log(118, a % 3, b % 2)
