@@ -113,6 +113,22 @@
 
 // 三、数值计算
 // 1. % 取余
-const a = -11
-const b = 3
-console.log(118, a % 3, b % 2)
+// const a = -11
+// const b = 3
+// console.log(118, a % 3, b % 2)
+
+// 2. 进制转换 toString(base) base可以是2, 8, 10, 16等
+// const a = 1
+// const b = 3
+// const c = 100
+// console.log(124, a.toString(2), b.toString(2), c.toString(2))
+// console.log(125, a.toString(8), b.toString(8), c.toString(8))
+// console.log(126, a.toString(16), b.toString(16), c.toString(16))
+
+// 3. 取多少位小数 toFix(length)
+const a = 1223
+const b = 45
+console.log(131, (a / b).toFixed(1))
+console.log(131, (a / b).toFixed(2))
+console.log(131, (a / b).toFixed(3))
+console.log(131, (0).toFixed(3))
