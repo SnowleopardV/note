@@ -30,7 +30,7 @@ React从16版本开始引入Fiber架构
 二、在更新的过程中, 会维护两套Fiber树
 */
 // 1. Current Fiber Tree
-// WorkInProgress Fiber Tree
+// 2. WorkInProgress Fiber Tree
 
 /*
 三、Fiber架构在React中实现了以下关键步骤

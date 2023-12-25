@@ -15,10 +15,10 @@
   // 创建微任务的有, MutationObserver、Promise.then、 await、queueMicrotask
   const root = document.getElementById('root')
 
-  setTimeout(() => {
-    root.innerHTML = `现在的时间是: ${new Date()}`
-    root.className = 'root'
-  }, 3000)
+  // setTimeout(() => {
+  //   root.innerHTML = `现在的时间是: ${new Date()}`
+  //   root.className = 'root'
+  // }, 3000)
 
   const mutaionObserver = new MutationObserver((mutationList, observer) => {
     console.log(20, mutationList, observer)
@@ -60,7 +60,11 @@
 
   console.log('script end')
 
-  queueMicrotask(() => console.log('queueMicrotask'))
+  queueMicrotask(() => {
+    console.log('queueMicrotask')
+    root.innerHTML = `现在的时间是: ${new Date()}`
+    root.className = 'root'
+  })
 </script>
 
 </html>

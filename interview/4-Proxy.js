@@ -6,7 +6,7 @@ const obj = {
 
 const proxy = new Proxy(obj, {
   get(target, key, receiver) {
-    console.log(target, key, receiver, receiver === proxy, receiver === obj)
+    console.log(9, target, key, receiver, receiver === proxy, receiver === obj)
 
     return target[key]
   },
