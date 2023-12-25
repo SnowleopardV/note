@@ -63,11 +63,11 @@
 // )
 
 // 10. 平方根 sqrt(x) / ** / Math.pow(x, n)
-const a = 16
-const b = 15
-console.log(68, Math.sqrt(a), Math.sqrt(b))
-console.log(69, a ** (1 / 2), b ** (1 / 2))
-console.log(70, Math.pow(a, 1 / 2), Math.pow(b, 1 / 2))
+// const a = 16
+// const b = 15
+// console.log(68, Math.sqrt(a), Math.sqrt(b))
+// console.log(69, a ** (1 / 2), b ** (1 / 2))
+// console.log(70, Math.pow(a, 1 / 2), Math.pow(b, 1 / 2))
 
 // 二、Number
 // 1. Number.isInteger(x) 判断数值是否为整数
