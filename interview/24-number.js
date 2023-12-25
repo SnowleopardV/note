@@ -62,6 +62,13 @@
 //   Math.trunc(e)
 // )
 
+// 10. 平方根 sqrt(x) / ** / Math.pow(x, n)
+const a = 16
+const b = 15
+console.log(68, Math.sqrt(a), Math.sqrt(b))
+console.log(69, a ** (1 / 2), b ** (1 / 2))
+console.log(70, Math.pow(a, 1 / 2), Math.pow(b, 1 / 2))
+
 // 二、Number
 // 1. Number.isInteger(x) 判断数值是否为整数
 // const a = -2.9999
@@ -117,7 +124,8 @@
 // const b = 3
 // console.log(118, a % 3, b % 2)
 
-// 2. 进制转换 toString(base) base可以是2, 8, 10, 16等
+// 2. 进制转换
+// a. 10进制转其他进制 toString(base) base可以是2, 8, 10, 16等
 // const a = 1
 // const b = 3
 // const c = 100
@@ -125,10 +133,15 @@
 // console.log(125, a.toString(8), b.toString(8), c.toString(8))
 // console.log(126, a.toString(16), b.toString(16), c.toString(16))
 
+// b. 其他进制转10进制 ParseInt(str, base)
+// const a = '10011111'
+// const b = '0xAA'
+// console.log(132, parseInt(a, 2), parseInt(b, 16))
+
 // 3. 取多少位小数 toFix(length)
-const a = 1223
-const b = 45
-console.log(131, (a / b).toFixed(1))
-console.log(131, (a / b).toFixed(2))
-console.log(131, (a / b).toFixed(3))
-console.log(131, (0).toFixed(3))
+// const a = 1223
+// const b = 45
+// console.log(131, (a / b).toFixed(1))
+// console.log(131, (a / b).toFixed(2))
+// console.log(131, (a / b).toFixed(3))
+// console.log(131, (0).toFixed(3))
