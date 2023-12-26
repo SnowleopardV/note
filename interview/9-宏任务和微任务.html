@@ -21,7 +21,7 @@
   // }, 3000)
 
   const mutaionObserver = new MutationObserver((mutationList, observer) => {
-    console.log(20, mutationList, observer)
+    console.log(20, mutationList, observer, observer === this)
   })
 
   // mutaionObserver.observe 创建的是一个微任务

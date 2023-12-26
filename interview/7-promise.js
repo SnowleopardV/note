@@ -79,3 +79,41 @@ const p4 = new Promise((resolve, reject) => {
 p4.then((result) => console.log(79, result))
   .catch((reason) => console.log(80, reason))
   .then((result) => console.log(81, result))
+
+class MyPromsie {
+  constructor(executor) {
+    executor(this.resolve.bind(this), this.reject.bind(this))
+  }
+
+  state = 'pending'
+  result = null
+  reason = null
+  fullFilledCallback = []
+  rejectedCallback = []
+
+  resolve(result) {
+    this.result = result
+
+    this.fullFilledCallback.forEach((fn) => fn())
+  }
+
+  reject(reason) {
+    this.reason = reason
+    this.rejectedCallback.forEach((fn) => fn())
+  }
+
+  then(onFillFilled, onRejected) {
+    if (this.state === 'fullFilled') {
+      queueMicrotask(() => onFillFilled(this.result))
+    } else if (this.state === 'reject') {
+      queueMicrotask(() => onRejected(this.reason))
+    } else if (this.state === 'pending') {
+      this.fullFilledCallback.push(() =>
+        queueMicrotask(() => onFillFilled(this.result))
+      )
+      this.rejectedCallback.push(() =>
+        queueMicrotask(() => onRejected(this.reason))
+      )
+    }
+  }
+}

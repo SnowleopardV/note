@@ -6,7 +6,7 @@
   3. 路由独享的守卫 beforeEnter
   4. 组件内守卫  beforeRouteEnter
   5. 全局解析守卫 beforeResolve
-  6. 全局的afterEach
+  6. 全局的 afterEach
 
   https://router.vuejs.org/zh/guide/advanced/navigation-guards
 */
