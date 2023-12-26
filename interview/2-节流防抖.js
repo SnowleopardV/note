@@ -1,15 +1,30 @@
 const showLog = () => console.log('hhahaha11')
 // 节流、防抖都属于高阶函数、还涉及到闭包
 // 一、节流
-function throttle(fn, delay) {
-  let shouldRun = true
-  return (...args) => {
-    if (shouldRun) {
-      fn(...args)
-      shouldRun = false
+// function throttle(fn, delay) {
+//   let shouldRun = true
+//   return (...args) => {
+//     if (shouldRun) {
+//       fn(...args)
+//       shouldRun = false
 
-      setTimeout(() => (shouldRun = true), delay)
-    }
+//       setTimeout(() => (shouldRun = true), delay)
+//     }
+//   }
+// }
+
+function throttle(fn, delay) {
+  let timer = null
+
+  return (...args) => {
+    // console.log(20, timer, typeof timer)
+    if (timer) return
+    fn(...args)
+    timer = setTimeout(() => {
+      // console.log(23)
+      clearTimeout(timer)
+      timer = null
+    }, delay)
   }
 }
 
