@@ -27,3 +27,7 @@ const proxy = new Proxy(obj, {
 Reflect.get(proxy, 'name')
 Reflect.set(proxy, 'sex', 'female')
 console.log(proxy, obj)
+
+console.log(32, proxy.age)
+proxy.age = 100
+console.log(35, obj.age, proxy, typeof proxy)
