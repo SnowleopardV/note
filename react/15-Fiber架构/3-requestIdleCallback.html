@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #root {
+      height: 50px;
+      background-color: skyblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    const root = document.getElementById('root')
+
+    let start = Date.now()
+
+    const sleep = delay => {
+      const current = Date.now()
+      while (Date.now() - current < delay) {}
+    }
+
+    const works = [
+      () => {
+        console.log('任务1开始执行')
+        sleep(4000)
+        console.log('任务1结束执行')
+      },
+      () => {
+        console.log('任务2开始执行')
+        sleep(20)
+        console.log('任务2结束执行')
+      },
+      () => {
+        console.log('任务3开始执行')
+        console.log('任务3结束执行')
+      },
+    ]
+
+    let frameNum = 1
+
+    const performUnitOfWork = () => works.shift()()
+
+    const workLoop = idleDealine => {
+      console.log(33, `当前是第${frameNum}帧, 本帧剩余时间: ${idleDealine.timeRemaining()}ms`)
+
+      frameNum++
+
+      while ((idleDealine.timeRemaining() > 0 || idleDealine.didTimeout) && works.length) {
+        performUnitOfWork()
+      }
+
+      if (works.length) requestIdleCallback(workLoop, {
+        timeout: 10000
+      })
+    }
+
+    requestIdleCallback(workLoop, {
+      timeout: 1000
+    })
+
+    // let count = 10
+
+    // const setWidth = () => root.style.width = 30 * frameNum + 'px'
+
+    // const animate = () => requestAnimationFrame(() => {
+    //   const current = Date.now()
+    //   console.log(71, `当前是第${frameNum}帧`, current - start)
+    //   start = current
+
+    //   setWidth()
+    //   frameNum++
+
+    //   if (frameNum < 20) {
+    //     animate()
+    //   }
+    // })
+
+    // animate()
+  </script>
+</body>
+
+</html>
