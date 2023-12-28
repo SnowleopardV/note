@@ -53,3 +53,16 @@ function debounce(fn, delay) {
 
 // const interval = setInterval(dbfn, 300)
 // setTimeout(() => clearInterval(interval), 1000)
+
+function deboounce(fn, delay) {
+  let timer
+
+  return (...args) => {
+    clearTimeout(timer)
+
+    timer = setTimeout(() => {
+      fn(...args)
+      // clearTimeout(timer)
+    }, delay)
+  }
+}
