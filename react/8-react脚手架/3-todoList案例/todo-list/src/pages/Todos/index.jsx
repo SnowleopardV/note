@@ -14,6 +14,14 @@ export default class Todos extends Component {
     ]
   }
 
+  componentDidMount () {
+    console.log(18, 'componentDidMount')
+  }
+
+  componentDidUpdate () {
+    console.log(22, 'componentDidUpdate')
+  }
+
   addTodo = todo => this.setState({ todos: [todo, ...this.state.todos] })
 
   updateTodo = (id, done) => {

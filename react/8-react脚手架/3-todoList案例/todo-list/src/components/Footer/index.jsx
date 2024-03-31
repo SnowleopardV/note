@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 export default class Footer extends Component {
-  static propTypes = {
-    todos: PropTypes.array,
-    clearAllDone: PropTypes.func
-  }
+  // static propTypes = {
+  // todos: PropTypes.array,
+  // clearAllDone: PropTypes.func
+  // }
 
   toggleAllDone = (e) => {
     const { updateAllDoneStatus } = this.props
@@ -14,9 +14,17 @@ export default class Footer extends Component {
   }
 
   removeAllDone = () => {
-    const { clearAllDone } = this.props
+    // const { clearAllDone } = this.props
 
-    clearAllDone()
+    // clearAllDone()
+  }
+
+  componentDidMount () {
+    console.log(23, 'componentDidMount')
+  }
+
+  componentDidUpdate () {
+    console.log(27, 'componentDidUpdate')
   }
 
   render () {
