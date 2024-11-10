@@ -1,0 +1,11 @@
+.scroll-container {
+  width: 500px;
+  height: 500px;
+  overflow: scroll;
+}
+
+.scroll-body {
+  height: 900px;
+  width: 500px;
+  background: yellow;
+}

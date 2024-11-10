@@ -1,0 +1,10 @@
+.A-wrap {
+  width: 400px;
+  height: 400px;
+  overflow: scroll;
+}
+.A-body {
+  width: 400px;
+  height: 900px;
+  background-color: yellow;
+}

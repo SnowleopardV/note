@@ -1,4 +1,4 @@
-import { INCREMENT, DECREMENT } from '../const'
+import { INCREMENT, DECREMENT, SCROLL } from '../const'
 const initState = 0
 export default (preState = initState, action) => {
   const { type, data } = action
@@ -9,6 +9,10 @@ export default (preState = initState, action) => {
     }
     case DECREMENT: {
       return preState - Number(data)
+    }
+    case SCROLL: {
+      console.log(14)
+      return preState + Number(data)
     }
     default: {
       return preState
