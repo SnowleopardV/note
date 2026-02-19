@@ -1,0 +1,112 @@
+|--- age <= -0.96
+|   |--- family_members <= -0.53
+|   |   |--- claim_history <= 0.80
+|   |   |   |--- premium_amount <= 2.11
+|   |   |   |   |--- policy_end_date_year <= 1.60
+|   |   |   |   |   |--- age <= -1.50
+|   |   |   |   |   |   |--- truncated branch of depth 5
+|   |   |   |   |   |--- age >  -1.50
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- policy_end_date_year >  1.60
+|   |   |   |   |   |--- insurance_region <= -0.57
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- insurance_region >  -0.57
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- premium_amount >  2.11
+|   |   |   |   |--- class: 1
+|   |   |--- claim_history >  0.80
+|   |   |   |--- occupation <= 0.21
+|   |   |   |   |--- education_level <= 0.68
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- education_level >  0.68
+|   |   |   |   |   |--- class: 0
+|   |   |   |--- occupation >  0.21
+|   |   |   |   |--- class: 0
+|   |--- family_members >  -0.53
+|   |   |--- marital_status <= 1.22
+|   |   |   |--- occupation <= 0.54
+|   |   |   |   |--- family_members <= 0.05
+|   |   |   |   |   |--- age <= -1.64
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- age >  -1.64
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- family_members >  0.05
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- occupation >  0.54
+|   |   |   |   |--- premium_amount <= -0.46
+|   |   |   |   |   |--- age <= -1.37
+|   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |   |--- age >  -1.37
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- premium_amount >  -0.46
+|   |   |   |   |   |--- class: 0
+|   |   |--- marital_status >  1.22
+|   |   |   |--- policy_id <= 1.30
+|   |   |   |   |--- family_members <= 1.22
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- family_members >  1.22
+|   |   |   |   |   |--- birth_region <= -0.05
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- birth_region >  -0.05
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- policy_id >  1.30
+|   |   |   |   |--- class: 1
+|--- age >  -0.96
+|   |--- age <= 1.13
+|   |   |--- occupation <= 1.21
+|   |   |   |--- class: 1
+|   |   |--- occupation >  1.21
+|   |   |   |--- policy_id <= 1.47
+|   |   |   |   |--- birth_region <= -0.10
+|   |   |   |   |   |--- birth_region <= -0.26
+|   |   |   |   |   |   |--- truncated branch of depth 4
+|   |   |   |   |   |--- birth_region >  -0.26
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |--- birth_region >  -0.10
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- policy_id >  1.47
+|   |   |   |   |--- family_members <= -0.53
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- family_members >  -0.53
+|   |   |   |   |   |--- class: 1
+|   |--- age >  1.13
+|   |   |--- family_members <= 0.05
+|   |   |   |--- education_level <= 0.68
+|   |   |   |   |--- gender <= -0.07
+|   |   |   |   |   |--- occupation <= 0.54
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- occupation >  0.54
+|   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- gender >  -0.07
+|   |   |   |   |   |--- policy_end_date_month <= -0.28
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |   |--- policy_end_date_month >  -0.28
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |--- education_level >  0.68
+|   |   |   |   |--- insurance_region <= 0.96
+|   |   |   |   |   |--- policy_end_date_year <= 1.50
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- policy_end_date_year >  1.50
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- insurance_region >  0.96
+|   |   |   |   |   |--- policy_end_date_year <= -0.84
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- policy_end_date_year >  -0.84
+|   |   |   |   |   |   |--- class: 1
+|   |   |--- family_members >  0.05
+|   |   |   |--- marital_status <= 1.22
+|   |   |   |   |--- policy_start_date_year <= 1.27
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- policy_start_date_year >  1.27
+|   |   |   |   |   |--- policy_end_date_year <= -0.74
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- policy_end_date_year >  -0.74
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |--- marital_status >  1.22
+|   |   |   |   |--- gender <= -0.07
+|   |   |   |   |   |--- policy_start_date_month <= -0.43
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- policy_start_date_month >  -0.43
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- gender >  -0.07
+|   |   |   |   |   |--- class: 0

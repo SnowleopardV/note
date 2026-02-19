@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>布局测试 - 香港疫情数据可视化大屏</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <style>
+    /* 测试用的占位样式 */
+    .test-chart {
+      background: linear-gradient(45deg, rgba(255, 107, 107, 0.3), rgba(78, 205, 196, 0.3));
+      border: 2px dashed rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- 标题栏 -->
+    <header class="header">
+      <h1>香港疫情数据可视化大屏</h1>
+      <div class="update-time">更新时间: <span id="updateTime">2025-01-27</span></div>
+    </header>
+
+    <!-- 统计卡片 -->
+    <div class="stats-cards">
+      <div class="card">
+        <div class="card-title">累计确诊</div>
+        <div class="card-value">1,234,567</div>
+        <div class="card-unit">例</div>
+      </div>
+      <div class="card">
+        <div class="card-title">现存确诊</div>
+        <div class="card-value">12,345</div>
+        <div class="card-unit">例</div>
+      </div>
+      <div class="card">
+        <div class="card-title">累计康复</div>
+        <div class="card-value">1,200,000</div>
+        <div class="card-unit">例</div>
+      </div>
+      <div class="card">
+        <div class="card-title">累计死亡</div>
+        <div class="card-value">22,222</div>
+        <div class="card-unit">例</div>
+      </div>
+    </div>
+
+    <!-- 图表区域 - 第一行 -->
+    <div class="charts-row">
+      <!-- 每日新增确诊趋势图 -->
+      <div class="chart-item">
+        <div class="chart-title">每日新增确诊趋势</div>
+        <div class="test-chart">折线图 - 每日新增确诊</div>
+      </div>
+
+      <!-- 累计确诊趋势图 -->
+      <div class="chart-item">
+        <div class="chart-title">累计确诊趋势</div>
+        <div class="test-chart">折线图 - 累计确诊</div>
+      </div>
+    </div>
+
+    <!-- 图表区域 - 第二行 -->
+    <div class="charts-row">
+      <!-- 地区分布图 -->
+      <div class="chart-item">
+        <div class="chart-title">各地区累计确诊分布</div>
+        <div class="test-chart">饼图 - 地区分布</div>
+      </div>
+
+      <!-- 新增确诊与康复对比图 -->
+      <div class="chart-item">
+        <div class="chart-title">新增确诊与康复对比</div>
+        <div class="test-chart">柱状图 - 对比分析</div>
+      </div>
+    </div>
+
+    <!-- 图表区域 - 第三行 -->
+    <div class="charts-row">
+      <!-- 地区发病率排行 -->
+      <div class="chart-item full-width">
+        <div class="chart-title">各地区发病率排行</div>
+        <div class="test-chart">横向柱状图 - 发病率排行</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 简单的交互效果
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', function () {
+        this.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
+      });
+    });
+
+    document.querySelectorAll('.chart-item').forEach(item => {
+      item.addEventListener('click', function () {
+        this.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
+      });
+    });
+  </script>
+</body>
+
+</html>

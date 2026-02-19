@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>香港疫情数据可视化大屏</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- 标题栏 -->
+    <header class="header">
+      <h1>香港疫情数据可视化大屏</h1>
+      <div class="update-time">更新时间: <span id="updateTime">--</span></div>
+    </header>
+
+    <!-- 主行：地图和累计确诊分布并排 -->
+    <div class="main-charts-row">
+      <div class="main-chart-item">
+        <div class="chart-title">香港地图疫情分布</div>
+        <div id="hkMapChart" class="main-chart"></div>
+      </div>
+      <div class="main-chart-item">
+        <div class="chart-title">各地区累计确诊分布</div>
+        <div id="districtChart" class="main-chart"></div>
+      </div>
+    </div>
+
+    <!-- 其余图表自适应紧凑排列 -->
+    <div class="sub-charts-grid">
+      <div class="sub-chart-item">
+        <div class="chart-title">每日新增确诊趋势</div>
+        <div id="newCasesChart" class="sub-chart"></div>
+      </div>
+      <div class="sub-chart-item">
+        <div class="chart-title">累计确诊趋势</div>
+        <div id="cumulativeChart" class="sub-chart"></div>
+      </div>
+      <div class="sub-chart-item">
+        <div class="chart-title">新增确诊与康复对比</div>
+        <div id="comparisonChart" class="sub-chart"></div>
+      </div>
+      <div class="sub-chart-item">
+        <div class="chart-title">各地区发病率排行</div>
+        <div id="incidenceChart" class="sub-chart"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,305 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial,
+    sans-serif;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: #fff;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.dashboard {
+  height: 100vh;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 标题栏 */
+.header {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  background: linear-gradient(45deg, #fff, #87ceeb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.update-time {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* 统计卡片 */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.card-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 3px;
+  color: #ffd700;
+}
+
+.card-unit {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* 重点大图表行 */
+.main-charts-row {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  height: 44vh;
+  min-height: 320px;
+  margin-bottom: 0;
+}
+
+.main-chart-item {
+  flex: 1 1 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.main-chart {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 2x2小图表网格 */
+.sub-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-auto-rows: 200px;
+  gap: 14px;
+  margin-top: 18px;
+  min-height: 0;
+}
+
+.sub-chart-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sub-chart {
+  flex: 1;
+  min-height: 120px;
+  max-height: 220px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chart-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #ffd700;
+  flex-shrink: 0;
+}
+
+/* 防止ECharts内容溢出 */
+.main-chart,
+.sub-chart {
+  overflow: hidden;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .dashboard {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .main-charts-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .main-chart-item {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .main-chart-item {
+    padding: 8px;
+  }
+
+  .chart-title {
+    font-size: 0.9rem;
+  }
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-chart-item {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 确保图表容器有最小高度 */
+.main-chart,
+.sub-chart {
+  min-height: 200px;
+}
+
+/* 优化图表在小屏幕上的显示 */
+@media (max-height: 800px) {
+  .dashboard {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .header {
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+
+  .stats-cards {
+    gap: 8px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .card-value {
+    font-size: 1.4rem;
+  }
+
+  .main-chart-item {
+    padding: 10px;
+  }
+
+  .chart-title {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+}

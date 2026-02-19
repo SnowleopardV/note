@@ -1,0 +1,76 @@
+|--- age <= -0.96
+|   |--- family_members <= -0.53
+|   |   |--- education_level <= 0.68
+|   |   |   |--- occupation <= 0.54
+|   |   |   |   |--- age <= -1.50
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- age >  -1.50
+|   |   |   |   |   |--- gender <= -0.07
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- gender >  -0.07
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- occupation >  0.54
+|   |   |   |   |--- class: 0
+|   |   |--- education_level >  0.68
+|   |   |   |--- class: 0
+|   |--- family_members >  -0.53
+|   |   |--- marital_status <= 1.22
+|   |   |   |--- occupation <= 0.54
+|   |   |   |   |--- family_members <= 0.05
+|   |   |   |   |   |--- policy_id <= 0.01
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- policy_id >  0.01
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |--- family_members >  0.05
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- occupation >  0.54
+|   |   |   |   |--- age <= -1.37
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- age >  -1.37
+|   |   |   |   |   |--- class: 1
+|   |   |--- marital_status >  1.22
+|   |   |   |--- premium_amount <= -0.53
+|   |   |   |   |--- class: 0
+|   |   |   |--- premium_amount >  -0.53
+|   |   |   |   |--- class: 0
+|--- age >  -0.96
+|   |--- age <= 1.13
+|   |   |--- occupation <= 1.21
+|   |   |   |--- class: 1
+|   |   |--- occupation >  1.21
+|   |   |   |--- family_members <= 0.05
+|   |   |   |   |--- income_level <= 0.01
+|   |   |   |   |   |--- age <= -0.15
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- age >  -0.15
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- income_level >  0.01
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- family_members >  0.05
+|   |   |   |   |--- class: 1
+|   |--- age >  1.13
+|   |   |--- family_members <= 0.05
+|   |   |   |--- education_level <= 0.68
+|   |   |   |   |--- gender <= -0.07
+|   |   |   |   |   |--- policy_id <= -0.19
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- policy_id >  -0.19
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- gender >  -0.07
+|   |   |   |   |   |--- policy_start_date_month <= -0.28
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- policy_start_date_month >  -0.28
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- education_level >  0.68
+|   |   |   |   |--- policy_duration_days <= -0.01
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- policy_duration_days >  -0.01
+|   |   |   |   |   |--- class: 0
+|   |   |--- family_members >  0.05
+|   |   |   |--- marital_status <= 1.22
+|   |   |   |   |--- policy_start_date_year <= 1.04
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- policy_start_date_year >  1.04
+|   |   |   |   |   |--- class: 1
+|   |   |   |--- marital_status >  1.22
+|   |   |   |   |--- class: 0

@@ -1,0 +1,322 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #0f1c3a;
+    color: #fff;
+}
+
+.dashboard-container {
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+}
+
+/* 顶部标题栏 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 166, 255, 0.5);
+}
+
+.update-time {
+    font-size: 14px;
+    color: #7eb6ff;
+}
+
+/* 顶部指标卡片 */
+.kpi-cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-wrap: nowrap;
+}
+
+.kpi-card {
+    flex: 1;
+    margin: 0 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.kpi-title {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.kpi-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* 中心内容区 */
+.main-content {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;  /* 给地图更多空间 */
+    gap: 15px;
+    height: 800px;
+}
+
+.map-container, .chart-wrapper {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    height: 300px;
+}
+
+.chart-title {
+    font-size: 16px;
+    color: #7eb6ff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.chart {
+    width: 100%;
+    height: calc(100% - 30px);
+    min-height: 250px;
+}
+
+.charts-container {
+    display: grid;
+    grid-template-rows: minmax(200px, 1fr) minmax(200px, 1fr);
+    gap: 15px;
+}
+
+/* 底部趋势区 */
+.trends-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    min-height: 300px;
+}
+
+/* 右下角风险区 */
+.risk-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 10px;
+    height: 100%;
+}
+
+.risk-warning {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    min-height: 200px;
+}
+
+#high-risk-areas {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff6b6b;
+}
+
+.risk-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.risk-item {
+    background-color: rgba(194, 53, 49, 0.2);
+    border-left: 4px solid #c23531;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.risk-value {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.no-risk {
+    color: #2ecc71;
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    background-color: rgba(46, 204, 113, 0.1);
+    border-radius: 4px;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .trends-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .risk-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 在小屏幕上减小地图高度 */
+    .map-container {
+        min-height: 400px !important;
+        height: 400px !important;
+    }
+    
+    #hk-map {
+        min-height: 370px !important;
+    }
+}
+
+/* 特大屏优化 */
+@media (min-width: 1600px) {
+    .dashboard-container {
+        /* grid-template-rows: 70px 130px minmax(500px, 1fr) minmax(350px, auto); */
+    }
+    
+    .header h1 {
+        font-size: 28px;
+    }
+    
+    .kpi-value {
+        font-size: 28px;
+    }
+    
+    .chart-title {
+        font-size: 18px;
+    }
+}
+
+/* 媒体查询 - 适应不同屏幕尺寸 */
+@media (min-width: 1920px) {
+    .dashboard-container {
+        /* grid-template-rows: 60px 120px minmax(300px, 1fr) minmax(250px, auto); */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* .main-content {
+        height: auto;
+        min-height: 500px;
+    } */
+    
+    .trends-container, .risk-container {
+        height: auto;
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 1600px) {
+    .kpi-container {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+    }
+    
+    .dashboard-container {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .risk-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* 动态颜色 */
+.kpi-card:nth-child(1) .kpi-value {
+    color: #ff6b6b;
+}
+
+.kpi-card:nth-child(2) .kpi-value {
+    color: #fc9d9d;
+}
+
+.kpi-card:nth-child(3) .kpi-value {
+    color: #ffb86c;
+}
+
+.kpi-card:nth-child(4) .kpi-value {
+    color: #64dfdf;
+}
+
+.kpi-card:nth-child(5) .kpi-value {
+    color: #ff9f9f;
+}
+
+/* 增加地图容器的最小高度，确保地图可见 */
+.map-container {
+    min-height: 550px !important;
+    height: 610px !important;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+/* 确保地图图表本身有足够空间 */
+#hk-map {
+    height: 100% !important;
+    min-height: 520px !important;
+    width: 100% !important;
+} 

@@ -1,0 +1,3 @@
+通过 https://bailian.console.aliyun.com/ 完成注册，得到 dashscope的API Key，方便后续使用大模型，比如使用 Qwen-Turbo
+https://bailian.console.aliyun.com/?tab=model#/api-key
+

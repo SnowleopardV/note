@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医院病床使用情况大屏</title>
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <!-- 引入jQuery -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #0b0c2b;
+            color: #fff;
+            overflow: hidden;
+        }
+        .dashboard {
+            width: 100vw;
+            height: 100vh;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 100px 1fr 1fr;
+            gap: 15px; /* 减小网格间距 */
+        }
+        .header {
+            grid-column: 1 / 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(22, 24, 73, 0.6);
+            border-radius: 10px;
+            padding: 15px 30px;
+        }
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chart-container {
+            background-color: rgba(22, 24, 73, 0.6);
+            border-radius: 10px;
+            padding: 12px; /* 减小内边距 */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            min-height: 380px; /* 稍微减小最小高度 */
+        }
+        .chart-title {
+            font-size: 18px;
+            margin-bottom: 8px; /* 减小标题下方间距 */
+            text-align: center;
+            color: #ccc;
+        }
+        .chart {
+            flex: 1;
+            width: 100%;
+            height: calc(100% - 30px);
+            position: relative;
+            min-height: 250px;
+        }
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 12, 43, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 10px;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #2ecc71;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: #ccc;
+            font-size: 14px;
+        }
+        .summary-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .card {
+            background: linear-gradient(135deg, #1f2251, #13162e);
+            border-radius: 8px;
+            padding: 12px;
+            flex: 1;
+            margin: 0 5px;
+            text-align: center;
+        }
+        .card-title {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 3px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+        }
+        .card-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .card-rate {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        .card-available {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        .card-total {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        .card-occupied {
+            background: linear-gradient(135deg, #f39c12, #d35400);
+        }
+        .refresh-time {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+        }
+        .refresh-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .refresh-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            transform: scale(1.05);
+        }
+        .refresh-btn i {
+            margin-right: 5px;
+        }
+        .refresh-btn.loading {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .refresh-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            margin-right: 5px;
+            position: relative;
+        }
+        .refresh-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: 3px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 5px 5px;
+            border-color: transparent transparent #fff transparent;
+        }
+        .info-tooltip {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255,255,255,0.2);
+            color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .info-tooltip:hover {
+            background-color: rgba(255,255,255,0.4);
+        }
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-dot.ready {
+            background-color: #2ecc71;
+        }
+        .status-dot.loading {
+            background-color: #f39c12;
+            animation: pulse 1.5s infinite;
+        }
+        .status-dot.error {
+            background-color: #e74c3c;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+        }
+        .precompute-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        .precompute-btn:hover {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            transform: scale(1.05);
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        .data-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 12, 43, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .data-loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #3498db;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        .data-loading-text {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .data-loading-progress {
+            width: 300px;
+            background-color: #1f2251;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .data-loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .data-loading-status {
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>香港医院病床使用情况实时监控</h1>
+            <div class="header-buttons">
+                <div class="status-indicator">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span id="status-text">检查数据状态...</span>
+                </div>
+                <button id="precompute-btn" class="precompute-btn">预先计算数据</button>
+                <button id="refresh-btn" class="refresh-btn">
+                    <span class="refresh-icon"></span>刷新数据
+                </button>
+            </div>
+        </div>
+        
+        <!-- 总体概况和空闲病床数据 -->
+        <div class="chart-container">
+            <div class="chart-title">总体概况</div>
+            <div class="info-tooltip" title="显示各科室空闲病床的数量分布">?</div>
+            <div class="summary-cards">
+                <div class="card card-total">
+                    <div class="card-title">总病床数</div>
+                    <div class="card-value" id="total-beds">-</div>
+                </div>
+                <div class="card card-occupied">
+                    <div class="card-title">已用病床</div>
+                    <div class="card-value" id="occupied-beds">-</div>
+                </div>
+                <div class="card card-available">
+                    <div class="card-title">空闲病床</div>
+                    <div class="card-value" id="available-beds">-</div>
+                </div>
+                <div class="card card-rate">
+                    <div class="card-title">总体使用率</div>
+                    <div class="card-value" id="occupancy-rate">-</div>
+                </div>
+            </div>
+            <div class="chart" id="free-beds-chart">
+                <div class="loading-overlay" id="loading-free-beds">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 各医院病床使用率 -->
+        <div class="chart-container">
+            <div class="chart-title">各医院病床使用率</div>
+            <div class="info-tooltip" title="展示各医院的整体病床使用率（使用率 = 已用病床 / 总病床数）">?</div>
+            <div class="chart" id="hospital-chart">
+                <div class="loading-overlay" id="loading-hospital">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 各科室病床使用率 -->
+        <div class="chart-container">
+            <div class="chart-title">主要科室病床使用率</div>
+            <div class="info-tooltip" title="按病床数量排序的前10个主要科室的使用率">?</div>
+            <div class="chart" id="department-chart">
+                <div class="loading-overlay" id="loading-department">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 医院科室使用率热力图 -->
+        <div class="chart-container">
+            <div class="chart-title">医院-科室病床使用率热力图</div>
+            <div class="info-tooltip" title="展示主要医院各科室的病床使用率情况，颜色越深表示使用率越高">?</div>
+            <div class="chart" id="heatmap-chart">
+                <div class="loading-overlay" id="loading-heatmap">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="refresh-time" id="refresh-time"></div>
+    </div>
+
+    <!-- 数据加载遮罩 -->
+    <div class="data-loading-overlay" id="data-loading-overlay" style="display: none;">
+        <div class="data-loading-spinner"></div>
+        <div class="data-loading-text">正在计算数据，请稍候...</div>
+        <div class="data-loading-progress">
+            <div class="data-loading-bar" id="loading-progress-bar"></div>
+        </div>
+        <div class="data-loading-status" id="loading-status">正在检查数据状态...</div>
+    </div>
+
+    <script>
+        // 图表实例对象
+        let hospitalChart = null;
+        let departmentChart = null;
+        let heatmapChart = null;
+        let freeBedsChart = null;
+        
+        // 加载状态变量 - 默认设为false，表示不显示加载状态
+        let loadingState = {
+            hospital: false,
+            department: false,
+            heatmap: false,
+            freeBeds: false
+        };
+
+        // 图表配置选项
+        const chartOptions = {
+            hospital: null,
+            department: null,
+            heatmap: null,
+            freeBeds: null
+        };
+        
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+        
+        // 初始化图表
+        function initCharts() {
+            // 先隐藏所有加载遮罩
+            hideAllLoadingOverlays();
+            
+            // 延迟初始化，避免页面卡顿
+            setTimeout(() => {
+                // 先创建图表实例
+                hospitalChart = echarts.init(document.getElementById('hospital-chart'));
+                departmentChart = echarts.init(document.getElementById('department-chart'));
+                heatmapChart = echarts.init(document.getElementById('heatmap-chart'));
+                freeBedsChart = echarts.init(document.getElementById('free-beds-chart'));
+                
+                // 设置空白图表配置，避免显示加载中状态太久
+                const emptyOption = {
+                    grid: { left: '3%', right: '8%', bottom: '3%', top: '3%', containLabel: true },
+                    xAxis: { show: false },
+                    yAxis: { show: false }
+                };
+                hospitalChart.setOption(emptyOption);
+                departmentChart.setOption(emptyOption);
+                heatmapChart.setOption(emptyOption);
+                freeBedsChart.setOption(emptyOption);
+                
+                // 同时加载所有数据
+                loadAllChartData();
+                
+                // 为窗口调整添加防抖功能
+                window.addEventListener('resize', debounce(function() {
+                    if (hospitalChart) hospitalChart.resize();
+                    if (departmentChart) departmentChart.resize();
+                    if (heatmapChart) heatmapChart.resize();
+                    if (freeBedsChart) freeBedsChart.resize();
+                }, 200));
+            }, 100);
+        }
+        
+        // 更新医院使用率图表
+        function updateHospitalChart(data) {
+            // 复制数据进行排序
+            const sortedData = {
+                hospital: [...data.hospital].reverse(),
+                occupancy_rate: [...data.occupancy_rate].reverse(),
+                available_beds: [...data.available_beds].reverse(),
+                total_beds: [...data.total_beds].reverse()
+            };
+            
+            // 横向条形图
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    formatter: function(params) {
+                        const idx = params[0].dataIndex;
+                        return `${sortedData.hospital[idx]}<br/>
+                                使用率: ${sortedData.occupancy_rate[idx]}%<br/>
+                                空闲病床: ${sortedData.available_beds[idx]}<br/>
+                                总病床: ${sortedData.total_beds[idx]}`;
+                    }
+                },
+                grid: { left: '3%', right: '8%', bottom: '3%', top: '3%', containLabel: true },
+                xAxis: {
+                    type: 'value',
+                    max: 100,
+                    axisLabel: { color: '#ccc' },
+                    axisLine: { lineStyle: { color: '#ccc' } }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: sortedData.hospital,
+                    axisLabel: { color: '#ccc' },
+                    axisLine: { lineStyle: { color: '#ccc' } }
+                },
+                series: [{
+                    name: '病床使用率',
+                    type: 'bar',
+                    data: sortedData.occupancy_rate,
+                    itemStyle: {
+                        color: function(params) {
+                            // 根据使用率显示不同颜色
+                            if (params.value > 90) return '#e74c3c';
+                            if (params.value > 80) return '#f39c12';
+                            if (params.value > 70) return '#3498db';
+                            return '#2ecc71';
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{c}%',
+                        color: '#fff'
+                    }
+                }]
+            };
+            
+            // 保存配置，以便刷新时使用
+            chartOptions.hospital = option;
+            
+            // 设置图表
+            hospitalChart.setOption(option);
+            
+            // 隐藏加载中
+            hideLoading('hospital');
+        }
+        
+        // 更新科室使用率图表
+        function updateDepartmentChart(data) {
+            // 创建柱状图
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    formatter: function(params) {
+                        const idx = params[0].dataIndex;
+                        return `${data.department[idx]}<br/>
+                                使用率: ${data.occupancy_rate[idx]}%<br/>
+                                空闲病床: ${data.available_beds[idx]}<br/>
+                                总病床: ${data.total_beds[idx]}`;
+                    }
+                },
+                grid: { left: '3%', right: '4%', bottom: '20%', top: '15%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    data: data.department,
+                    axisLabel: {
+                        color: '#ccc',
+                        rotate: 45,
+                        interval: 0,
+                        fontSize: 11,
+                        margin: 10
+                    },
+                    axisLine: { lineStyle: { color: '#ccc' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    max: 100,
+                    axisLabel: { color: '#ccc' },
+                    axisLine: { lineStyle: { color: '#ccc' } },
+                    splitLine: { 
+                        show: true,
+                        lineStyle: { 
+                            color: 'rgba(204, 204, 204, 0.2)',
+                            type: 'dashed'
+                        } 
+                    }
+                },
+                series: [{
+                    name: '病床使用率',
+                    type: 'bar',
+                    data: data.occupancy_rate,
+                    barWidth: '40%', // 调整柱状图宽度
+                    itemStyle: {
+                        color: function(params) {
+                            // 根据使用率显示不同颜色
+                            if (params.value > 90) return '#e74c3c';
+                            if (params.value > 80) return '#f39c12';
+                            if (params.value > 70) return '#3498db';
+                            return '#2ecc71';
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}%',
+                        color: '#fff',
+                        distance: 10, // 增加标签距离
+                        fontSize: 12,
+                        fontWeight: 'bold'
+                    }
+                }]
+            };
+            
+            // 保存配置
+            chartOptions.department = option;
+            
+            // 设置图表
+            departmentChart.setOption(option);
+            
+            // 隐藏加载中
+            hideLoading('department');
+        }
+        
+        // 更新热力图
+        function updateHeatmapChart(data) {
+            const option = {
+                tooltip: {
+                    position: 'top',
+                    formatter: function (params) {
+                        // 注意：这里由于调换了x和y轴，需要调整提示框中的顺序
+                        return `医院: ${data.hospitals[params.data[1]]}<br>
+                                科室: ${data.departments[params.data[0]]}<br>
+                                使用率: ${params.data[2].toFixed(2)}%`;
+                    },
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    borderColor: '#555',
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 14
+                    },
+                    padding: 10
+                },
+                grid: { left: '5%', right: '5%', bottom: '10%', top: '10%', containLabel: true },
+                // x轴现在对应科室
+                xAxis: {
+                    type: 'category',
+                    data: data.departments,
+                    splitArea: { show: true },
+                    axisLabel: { 
+                        color: '#ccc',
+                        fontSize: 12,
+                        rotate: 0,  // 科室名称水平显示
+                        interval: 0
+                    },
+                    axisLine: { lineStyle: { color: '#ccc' } }
+                },
+                // y轴现在对应医院
+                yAxis: {
+                    type: 'category',
+                    data: data.hospitals,
+                    splitArea: { show: true },
+                    axisLabel: { 
+                        color: '#ccc',
+                        fontSize: 12,
+                        interval: 0
+                    },
+                    axisLine: { lineStyle: { color: '#ccc' } }
+                },
+                visualMap: {
+                    min: 60,
+                    max: 100,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '0%',
+                    text: ['高', '低'],
+                    textStyle: { color: '#ccc' },
+                    inRange: {
+                        color: ['#2ecc71', '#f39c12', '#e74c3c']
+                    }
+                },
+                series: [{
+                    name: '病床使用率',
+                    type: 'heatmap',
+                    // 重要：修改数据格式 - 交换x和y坐标
+                    data: data.data.map(item => [item[1], item[0], item[2]]), 
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    label: {
+                        show: true,
+                        formatter: function(params) {
+                            return params.data[2].toFixed(1) + '%';
+                        },
+                        color: '#000',
+                        fontSize: 12,
+                        fontWeight: 'bold'
+                    }
+                }]
+            };
+            
+            // 保存配置
+            chartOptions.heatmap = option;
+            
+            // 设置图表
+            heatmapChart.setOption(option);
+            
+            // 隐藏加载中
+            hideLoading('heatmap');
+        }
+        
+        // 更新空闲病床数据图表
+        function updateFreeBedsChart(data) {
+            // 调整容器布局，确保图表完整显示
+            const chartContainer = document.querySelector('.summary-cards').parentNode;
+            chartContainer.style.display = 'flex';
+            chartContainer.style.flexDirection = 'column';
+            
+            // 设置卡片容器最小高度，减少卡片占用的空间
+            document.querySelector('.summary-cards').style.minHeight = '90px';
+            document.querySelector('.summary-cards').style.marginBottom = '10px';
+            
+            // 设置图表区域高度，增加饼图显示空间
+            document.getElementById('free-beds-chart').style.minHeight = '320px';
+            
+            // 饼图显示各科室空闲病床分布
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 10,
+                    top: 'center',
+                    textStyle: { 
+                        color: '#ccc',
+                        fontSize: 12
+                    },
+                    itemWidth: 15,
+                    itemHeight: 10,
+                    itemGap: 12,
+                    formatter: function(name) {
+                        const value = data.top_departments.values[data.top_departments.names.indexOf(name)];
+                        // 确保名称不会太长
+                        const shortName = name.length > 5 ? name.substring(0, 5) + '..' : name;
+                        return `${shortName}: ${value}`;
+                    },
+                    data: data.top_departments.names
+                },
+                series: [{
+                    name: '空闲病床数',
+                    type: 'pie',
+                    radius: ['35%', '65%'],
+                    center: ['65%', '50%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#0b0c2b',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 16,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: data.top_departments.names.map((name, index) => {
+                        return {
+                            value: data.top_departments.values[index],
+                            name: name
+                        };
+                    })
+                }]
+            };
+            
+            // 保存配置
+            chartOptions.freeBeds = option;
+            
+            // 设置图表
+            freeBedsChart.setOption(option);
+            
+            // 隐藏加载中
+            hideLoading('freeBeds');
+        }
+        
+        // 更新卡片数据
+        function updateSummaryCards(data) {
+            document.getElementById('total-beds').textContent = data.total_beds.toLocaleString();
+            document.getElementById('occupied-beds').textContent = data.occupied_beds.toLocaleString();
+            document.getElementById('available-beds').textContent = data.available_beds.toLocaleString();
+            document.getElementById('occupancy-rate').textContent = data.occupancy_rate.toFixed(2) + '%';
+        }
+        
+        // 显示加载中
+        function showLoading(chartType) {
+            loadingState[chartType] = true;
+            document.getElementById('loading-' + (chartType === 'freeBeds' ? 'free-beds' : chartType)).style.display = 'flex';
+        }
+        
+        // 隐藏加载中
+        function hideLoading(chartType) {
+            loadingState[chartType] = false;
+            document.getElementById('loading-' + (chartType === 'freeBeds' ? 'free-beds' : chartType)).style.display = 'none';
+        }
+        
+        // 隐藏所有加载遮罩
+        function hideAllLoadingOverlays() {
+            document.querySelectorAll('.loading-overlay').forEach(overlay => {
+                overlay.style.display = 'none';
+            });
+            document.getElementById('data-loading-overlay').style.display = 'none';
+        }
+        
+        // 加载所有图表数据
+        function loadAllChartData() {
+            // 同时加载所有数据，不再分批加载
+            $.getJSON('/api/hospital_usage', function(data) {
+                if (data.hospital && data.hospital.length > 0) {
+                    updateHospitalChart(data);
+                }
+            });
+            
+            $.getJSON('/api/department_usage', function(data) {
+                if (data.department && data.department.length > 0) {
+                    updateDepartmentChart(data);
+                }
+            });
+            
+            $.getJSON('/api/hospital_dept_heatmap', function(data) {
+                if (data.hospitals && data.hospitals.length > 0 && data.data && data.data.length > 0) {
+                    updateHeatmapChart(data);
+                }
+            });
+            
+            $.getJSON('/api/free_beds_summary', function(data) {
+                if (data.total_beds > 0) {
+                    updateSummaryCards(data);
+                    if (data.top_departments && data.top_departments.names && data.top_departments.names.length > 0) {
+                        updateFreeBedsChart(data);
+                    }
+                }
+            });
+        }
+        
+        // 刷新所有数据
+        function refreshAllData() {
+            const refreshBtn = document.getElementById('refresh-btn');
+            refreshBtn.classList.add('loading');
+            refreshBtn.textContent = '数据刷新中...';
+            refreshBtn.disabled = true;
+            
+            // 先触发后端数据刷新
+            $.getJSON('/api/refresh_data', function(response) {
+                if (response.status === 'success') {
+                    // 成功刷新后，重新加载所有图表数据
+                    loadAllChartData();
+                    
+                    // 更新刷新时间
+                    const now = new Date();
+                    document.getElementById('refresh-time').textContent = `更新时间: ${now.toLocaleString()}`;
+                } else {
+                    alert('刷新数据失败：' + response.message);
+                }
+                
+                refreshBtn.classList.remove('loading');
+                refreshBtn.innerHTML = '<span class="refresh-icon"></span>刷新数据';
+                refreshBtn.disabled = false;
+            }).fail(function() {
+                alert('刷新数据请求失败');
+                refreshBtn.classList.remove('loading');
+                refreshBtn.innerHTML = '<span class="refresh-icon"></span>刷新数据';
+                refreshBtn.disabled = false;
+            });
+        }
+        
+        // 页面加载完成后执行
+        $(document).ready(function() {
+            // 初始化状态检查
+            checkDataStatus();
+            
+            // 初始化图表
+            initCharts();
+            
+            // 设置刷新时间
+            const now = new Date();
+            document.getElementById('refresh-time').textContent = `更新时间: ${now.toLocaleString()}`;
+            
+            // 设置刷新按钮点击事件
+            document.getElementById('refresh-btn').addEventListener('click', refreshAllData);
+            
+            // 设置预计算按钮点击事件
+            document.getElementById('precompute-btn').addEventListener('click', function() {
+                this.disabled = true;
+                this.textContent = '正在启动预计算...';
+                
+                $.getJSON('/api/run_precompute', function(response) {
+                    if (response.status === 'success') {
+                        alert('预计算脚本已启动，请耐心等待计算完成');
+                        startStatusPolling();
+                    } else {
+                        alert('启动预计算失败: ' + response.message);
+                    }
+                    
+                    document.getElementById('precompute-btn').disabled = false;
+                    document.getElementById('precompute-btn').textContent = '预先计算数据';
+                }).fail(function() {
+                    alert('预计算请求失败');
+                    document.getElementById('precompute-btn').disabled = false;
+                    document.getElementById('precompute-btn').textContent = '预先计算数据';
+                });
+            });
+            
+            // 设置提示框
+            document.querySelectorAll('.info-tooltip').forEach(tooltip => {
+                tooltip.addEventListener('mouseover', function() {
+                    const title = this.getAttribute('title');
+                    this.setAttribute('data-title', title);
+                    this.setAttribute('title', '');
+                    
+                    const tooltipBox = document.createElement('div');
+                    tooltipBox.className = 'tooltip-box';
+                    tooltipBox.style.position = 'absolute';
+                    tooltipBox.style.zIndex = '100';
+                    tooltipBox.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                    tooltipBox.style.color = '#fff';
+                    tooltipBox.style.padding = '5px 10px';
+                    tooltipBox.style.borderRadius = '5px';
+                    tooltipBox.style.fontSize = '12px';
+                    tooltipBox.style.maxWidth = '200px';
+                    tooltipBox.style.top = '30px';
+                    tooltipBox.style.right = '10px';
+                    tooltipBox.textContent = title;
+                    
+                    this.appendChild(tooltipBox);
+                });
+                
+                tooltip.addEventListener('mouseout', function() {
+                    const title = this.getAttribute('data-title');
+                    this.setAttribute('title', title);
+                    this.removeAttribute('data-title');
+                    
+                    const tooltipBox = this.querySelector('.tooltip-box');
+                    if (tooltipBox) this.removeChild(tooltipBox);
+                });
+            });
+        });
+        
+        // 检查数据计算状态
+        function checkDataStatus() {
+            $.getJSON('/api/compute_status', function(data) {
+                const statusDot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                
+                if (data.ready) {
+                    // 数据已就绪
+                    statusDot.className = 'status-dot ready';
+                    statusText.textContent = '数据已就绪';
+                    document.getElementById('data-loading-overlay').style.display = 'none';
+                } else if (data.precomputing) {
+                    // 数据正在计算中
+                    statusDot.className = 'status-dot loading';
+                    statusText.textContent = '数据计算中...';
+                    // 不再显示加载遮罩
+                } else {
+                    // 数据未就绪但未计算
+                    statusDot.className = 'status-dot error';
+                    statusText.textContent = '等待数据计算';
+                    // 不再显示加载遮罩
+                }
+                
+                // 如果有时间戳，更新刷新时间
+                if (data.formatted_time) {
+                    document.getElementById('refresh-time').textContent = `更新时间: ${data.formatted_time}`;
+                }
+                
+                // 定期检查状态
+                setTimeout(checkDataStatus, 2000);
+            }).fail(function() {
+                const statusDot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                
+                statusDot.className = 'status-dot error';
+                statusText.textContent = '状态检查失败';
+                
+                // 继续轮询
+                setTimeout(checkDataStatus, 2000);
+            });
+        }
+        
+        // 开始状态轮询
+        function startStatusPolling() {
+            // 不再显示加载遮罩
+            checkDataStatus();
+        }
+    </script>
+</body>
+</html> 

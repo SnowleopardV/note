@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港疫情实时监控大屏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        }
+        
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: #0f1c3a;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .dashboard-container {
+            width: 100%;
+            height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        /* 顶部标题栏 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 166, 255, 0.5);
+        }
+        
+        .update-time {
+            font-size: 14px;
+            color: #7eb6ff;
+        }
+        
+        /* 顶部指标卡片 */
+        .kpi-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .kpi-card {
+            flex: 1;
+            margin: 0 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .kpi-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        /* 中间内容区域 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 15px;
+            margin-top: 15px;
+            height: calc(100vh - 180px);
+        }
+        
+        /* 左侧地图 */
+        .map-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* 右侧图表区域 */
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+        }
+        
+        .chart-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            flex: 1;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            color: #7eb6ff;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .chart {
+            width: 100%;
+            height: calc(100% - 30px);
+        }
+        
+        /* 颜色定制 */
+        .kpi-card:nth-child(1) .kpi-value {
+            color: #ff6e76;
+        }
+        
+        .kpi-card:nth-child(2) .kpi-value {
+            color: #fddd60;
+        }
+        
+        .kpi-card:nth-child(3) .kpi-value {
+            color: #ffdd80;
+        }
+        
+        .kpi-card:nth-child(4) .kpi-value {
+            color: #58d9f9;
+        }
+        
+        .kpi-card:nth-child(5) .kpi-value {
+            color: #fc8452;
+        }
+    </style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 顶部标题栏 -->
+        <div class="header">
+            <h1>香港疫情实时监控大屏</h1>
+            <div class="update-time">最后更新时间: {{ today_data.last_update }}</div>
+        </div>
+        
+        <!-- 顶部指标卡片 -->
+        <div class="kpi-cards">
+            <div class="kpi-card">
+                <div class="kpi-title">今日新增确诊</div>
+                <div class="kpi-value" id="new-cases">{{ today_data.new_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计确诊总数</div>
+                <div class="kpi-value" id="total-cases">{{ today_data.total_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">当前活跃病例</div>
+                <div class="kpi-value" id="active-cases">{{ today_data.active_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计康复人数</div>
+                <div class="kpi-value" id="recovered">{{ today_data.recovered }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计死亡人数</div>
+                <div class="kpi-value" id="deaths">{{ today_data.deaths }}</div>
+            </div>
+        </div>
+        
+        <!-- 中间内容区域 -->
+        <div class="main-content">
+            <!-- 左侧地图 -->
+            <div class="map-container">
+                <div class="chart-title">香港各区疫情分布</div>
+                <div class="chart" id="hk-map"></div>
+            </div>
+            
+            <!-- 右侧图表区域 -->
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <div class="chart-title">每日新增与累计确诊数据</div>
+                    <div class="chart" id="daily-total-chart"></div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">香港各区域确诊病例对比</div>
+                    <div class="chart" id="area-comparison-chart"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部趋势区 -->
+        <div class="trends-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">确诊病例增长率变化</div>
+                <div class="chart" id="growth-rate-chart"></div>
+            </div>
+            <div class="chart-wrapper">
+                <div class="chart-title">活跃病例趋势</div>
+                <div class="chart" id="active-cases-chart"></div>
+            </div>
+        </div>
+        
+        <!-- 风险区域 - 调整为并排布局 -->
+        <div class="risk-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">风险等级分布</div>
+                <div class="chart" id="risk-level-pie"></div>
+            </div>
+            <div class="risk-warning" id="warning-list">
+                <div class="chart-title">高风险区域提示</div>
+                <div id="high-risk-areas"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化所有图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取数据并初始化图表
+            Promise.all([
+                fetch('/api/daily_data').then(res => res.json()),
+                fetch('/api/region_data').then(res => res.json()),
+                fetch('/api/summary').then(res => res.json())
+            ]).then(([dailyData, regionData, summaryData]) => {
+                // 初始化各图表
+                initHongKongMap(regionData);
+                initDailyTotalChart(dailyData);
+                initAreaComparisonChart(regionData);
+                
+                // 绑定窗口大小变化事件
+                window.addEventListener('resize', function() {
+                    charts.forEach(chart => chart.resize());
+                });
+            }).catch(error => {
+                console.error('获取数据失败:', error);
+            });
+        });
+        
+        // 存储所有图表实例
+        const charts = [];
+        
+        // 初始化香港地图
+        function initHongKongMap(regionData) {
+            fetch('/static/js/hongkong.json')
+                .then(response => response.json())
+                .then(hongkongJson => {
+                    echarts.registerMap('hongkong', hongkongJson);
+                    
+                    const chartDom = document.getElementById('hk-map');
+                    const myChart = echarts.init(chartDom);
+                    charts.push(myChart);
+                    
+                    // 定义数据和视觉映射
+                    const data = regionData.regions.map((name, index) => {
+                        return {
+                            name: name,
+                            value: regionData.total_cases[index]
+                        };
+                    });
+                    
+                    const option = {
+                        visualMap: {
+                            left: 'right',
+                            min: 0,
+                            max: Math.max(...regionData.total_cases),
+                            inRange: {
+                                color: ['#85e69a', '#7dd2fa', '#ffc77d', '#ff9a61', '#ea5d5c']
+                            },
+                            text: ['高', '低'],
+                            calculable: true,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        series: [{
+                            name: '确诊病例',
+                            type: 'map',
+                            map: 'hongkong',
+                            roam: false,
+                            label: {
+                                show: true,
+                                color: '#fff',
+                                fontSize: 10
+                            },
+                            emphasis: {
+                                label: {
+                                    color: '#fff',
+                                    fontSize: 12
+                                },
+                                itemStyle: {
+                                    areaColor: '#3ba272'
+                                }
+                            },
+                            data: data
+                        }],
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: '{b}<br/>确诊病例: {c}'
+                        }
+                    };
+                    
+                    myChart.setOption(option);
+                });
+        }
+        
+        // 初始化每日新增与累计确诊数据图表
+        function initDailyTotalChart(data) {
+            const chartDom = document.getElementById('daily-total-chart');
+            const myChart = echarts.init(chartDom);
+            charts.push(myChart);
+            
+            // 显示最近30天的数据
+            const length = data.dates.length;
+            const startIndex = Math.max(0, length - 30);
+            
+            const recentDates = data.dates.slice(startIndex);
+            const recentDailyNew = data.daily_new.slice(startIndex);
+            const recentDailyAvg = data.daily_avg.slice(startIndex);
+            const recentTotalCases = data.total_cases.slice(startIndex);
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['每日新增确诊', '7日移动平均', '累计确诊'],
+                    textStyle: {
+                        color: '#eee'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: recentDates,
+                    axisLabel: {
+                        color: '#eee',
+                        rotate: 45
+                    }
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '每日新增',
+                        splitLine: {
+                            lineStyle: {
+                                color: 'rgba(255,255,255,0.1)'
+                            }
+                        },
+                        axisLabel: {
+                            color: '#eee'
+                        }
+                    },
+                    {
+                        type: 'value',
+                        name: '累计确诊',
+                        splitLine: {
+                            show: false
+                        },
+                        axisLabel: {
+                            color: '#eee'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '每日新增确诊',
+                        type: 'bar',
+                        data: recentDailyNew,
+                        color: '#5470c6'
+                    },
+                    {
+                        name: '7日移动平均',
+                        type: 'line',
+                        smooth: true,
+                        data: recentDailyAvg,
+                        color: '#91cc75'
+                    },
+                    {
+                        name: '累计确诊',
+                        type: 'line',
+                        smooth: true,
+                        yAxisIndex: 1,
+                        data: recentTotalCases,
+                        color: '#ee6666'
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+        
+        // 初始化各区域确诊病例对比图表
+        function initAreaComparisonChart(data) {
+            const chartDom = document.getElementById('area-comparison-chart');
+            const myChart = echarts.init(chartDom);
+            charts.push(myChart);
+            
+            // 按确诊病例数排序
+            const indices = Array.from(Array(data.regions.length).keys())
+                .sort((a, b) => data.total_cases[b] - data.total_cases[a]);
+            
+            const sortedRegions = indices.map(i => data.regions[i]);
+            const sortedCases = indices.map(i => data.total_cases[i]);
+            
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        color: '#eee'
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.1)'
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: sortedRegions,
+                    axisLabel: {
+                        color: '#eee'
+                    }
+                },
+                series: [
+                    {
+                        name: '确诊病例',
+                        type: 'bar',
+                        data: sortedCases,
+                        itemStyle: {
+                            color: function(params) {
+                                // 设置渐变色，根据数值大小
+                                const value = params.value;
+                                const max = Math.max(...sortedCases);
+                                if (value > max * 0.8) return '#c23531';
+                                if (value > max * 0.6) return '#d48265';
+                                if (value > max * 0.4) return '#e5a45b';
+                                if (value > max * 0.2) return '#91c7ae';
+                                return '#61a0a8';
+                            }
+                        },
+                        label: {
+                            show: true,
+                            position: 'right',
+                            color: '#eee'
+                        }
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+    </script>
+</body>
+</html> 
